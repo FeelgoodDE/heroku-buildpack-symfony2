@@ -232,7 +232,7 @@ then
 
 
 	if [ ! -r ${BUILD_DIR}/app/config/parameters.yml ]; then
-		if [ ! -r ${BUILD_DIR}/app/config/parameters_prod.yml.erb ]; then
+		if [ -r ${BUILD_DIR}/app/config/parameters_prod.yml.erb ]; then
 			erb ${BUILD_DIR}/app/config/parameters_prod.yml.erb > ${BUILD_DIR}/app/config/parameters.yml
 		else
 

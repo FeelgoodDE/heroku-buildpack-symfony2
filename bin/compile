@@ -61,6 +61,11 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 BUNDLE_DIR="${CACHE_DIR}/bundles"
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
+
+#Paths
+PHP_PATH="vendor/php"
+NODE_PATH="vendor/node"
+
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
 # include .files when moving things around
@@ -223,16 +228,22 @@ then
 		download_url ${COMPOSER_URL}
 	fi
 
+	echo "configuring build-system php for composer" | indent
+    # Php installation for bootstrap
+    PHP_ROOT=${BUILD_DIR}/${PHP_PATH}
+    PHP_INI=/app/${PHP_PATH}/php.ini
+    EXEC_PHP=${BUILD_DIR}/${PHP_PATH}/bin/php
+
 	# Copying php.ini to php temporary installation
 	# It solves datezone problem, possible others
 	cp $LP_DIR/conf/php.ini ${BUILD_DIR}/vendor/php/bin	
 
 	# Deactivating plugins from php.ini (they won't be found)
-	sed -i 's/extension=\(\w*\.so\)/;extension=\1/g' ${BUILD_DIR}/vendor/php/bin/php.ini
+	sed -i 's/extension=\(\w*\.so\)/;extension=\1/g' ${PHP_INI}
 
-    echo "extension_dir=${PHP_ROOT}/lib/php/extensions/no-debug-non-zts-20100525" >> ${BUILD_DIR}/vendor/php/bin/php.ini
-    echo "extension=apc.so" >> ${BUILD_DIR}/vendor/php/bin/php.ini
-    echo "extension=mongo.so" >> ${BUILD_DIR}/vendor/php/bin/php.ini
+    echo "extension_dir=${PHP_ROOT}/lib/php/extensions/no-debug-non-zts-20100525" >> ${PHP_INI}
+    echo "extension=apc.so" >> ${PHP_INI}
+    echo "extension=mongo.so" >> ${PHP_INI}
 
 	if [ ! -r ${BUILD_DIR}/app/config/parameters.yml ]; then
 		if [ -r ${BUILD_DIR}/app/config/parameters_prod.yml.erb ]; then

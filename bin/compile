@@ -233,7 +233,7 @@ then
 
 	if [ ! -r ${BUILD_DIR}/app/config/parameters.yml ]; then
 		if [ -r ${BUILD_DIR}/app/config/parameters_prod.yml.erb ]; then
-			CLEARDB_DATABASE_URL=$CLEARDB_DATABASE_URL erb ${BUILD_DIR}/app/config/parameters_prod.yml.erb > ${BUILD_DIR}/app/config/parameters.yml
+			erb ${BUILD_DIR}/app/config/parameters_prod.yml.erb > ${BUILD_DIR}/app/config/parameters.yml
 		else
 
 DEFAULT_PARAMETERS_FILE=`cat <<'DELIMETR'

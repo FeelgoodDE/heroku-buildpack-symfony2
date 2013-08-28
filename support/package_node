@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+
+if [ "$NODE_VERSION" == "" ]; then
+  echo "must set NODE_VERSION, i.e NODE_VERSION=0.6.18"
+  exit 1
+fi
+node_version=$NODE_VERSION
+
+basedir="$( cd -P "$( dirname "$0" )" && pwd )"
+
+# make a temp directory
+tempdir="$( mktemp -t node_XXXX )"
+
+echo "Temp Dir : $tempdir"
+
+rm -rf $tempdir
+mkdir -p $tempdir
+pushd $tempdir
+
+echo "Download Node ${node_version}..."
+curl -L http://nodejs.org/dist/v${node_version}/node-v${node_version}.tar.gz -o node.tar.gz
+
+echo "Extract Node ${node_version}..."
+tar xzf node.tar.gz
+
+pushd node-v${node_version}
+
+# build and package nodejs for heroku
+echo "Use vulcan to build Node for Heroku instance..."
+vulcan build -v -o $tempdir/node-${node_version}-heroku.tar.gz
+
+popd
+popd
+
+cp $tempdir/node-${node_version}-heroku.tar.gz .
+echo "+ Binaries available at ./node-${node_version}-heroku.tar.gz"
+
+
+echo "+ Upload this package to Amazon S3."

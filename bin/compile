@@ -231,7 +231,7 @@ then
 	echo "configuring build-system php for composer" | indent
     # Php installation for bootstrap
     PHP_ROOT=${BUILD_DIR}/${PHP_PATH}
-    PHP_INI=/app/${PHP_PATH}/php.ini
+    PHP_INI=/app/${PHP_PATH}/bin/php.ini
     EXEC_PHP=${BUILD_DIR}/${PHP_PATH}/bin/php
 
 	# Copying php.ini to php temporary installation

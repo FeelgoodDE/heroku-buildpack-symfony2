@@ -11,6 +11,7 @@ LIBMCRYPT_VERSION=2.5.8
 LIBMEMCACHED_VERSION=1.0.7
 PHP_VERSION=5.4.12
 NEWRELIC_VERSION=3.2.5.143
+NODE_VERSION=0.10.17
 S3_BUCKET=feelgood-heroku-buildpack
 # END CONFIG
 
@@ -24,6 +25,7 @@ MEMCACHED_FILE="libmemcached-${LIBMEMCACHED_VERSION}.tar.gz"
 ICU_FILE="libicu-${LIBICU_VERSION}.tar.gz"
 PHP_FILE="php-${PHP_VERSION}-with-fpm-heroku.tar.gz"
 NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
+NODE_FILE="node-${NODE_VERSION}-heroku.tar.gz"
 
 MANIFEST_URL="${S3_URL}/${MANIFEST_FILE}"
 NGINX_URL="${S3_URL}/${NGINX_FILE}"
@@ -32,6 +34,7 @@ MEMCACHED_URL="${S3_URL}/${MEMCACHED_FILE}"
 ICU_URL="${S3_URL}/${ICU_FILE}"
 PHP_URL="${S3_URL}/${PHP_FILE}"
 NEWRELIC_URL="${S3_URL}/${NEWRELIC_FILE}"
+NODE_URL="${S3_URL}/${NODE_FILE}"
 COMPOSER_URL="http://getcomposer.org/composer.phar"
 #
 
@@ -54,6 +57,34 @@ function check_md5() {
 function download_url() {
 	TARGET_URL="$1"
 	curl -s -S -O -L -m 300 --connect-timeout 60 "$TARGET_URL"
+}
+
+# package params: name tarball version url build_dir target
+function install {
+    echo "-----> Installing ${1} v${3}"
+    if [ -f $2 ]
+    then
+            # check manifest
+            if check_md5 $2
+            then
+                    echo "Bundling ${1} v${3}" | indent
+                    echo ${4} | indent
+                    download_url ${4}
+            else
+                    echo "Using cached ${1} v${3}" | indent
+            fi
+    else
+            # fetch
+            echo "Bundling ${1} v${3}" | indent
+            echo $4 | indent
+            download_url $4
+    fi
+    
+    if [ ! -d $5 ]; then
+        mkdir -p $5
+    fi
+    
+    tar xzf $2 -C $5
 }
 
 BIN_DIR=$(dirname $0)
@@ -211,6 +242,15 @@ tar xzf ${NEWRELIC_FILE} -C ${BUILD_DIR}/local
 
 popd > /dev/null
 
+# NODE
+    install "Node" $NODE_FILE $NODE_VERSION $NODE_URL ${BUILD_DIR}/${NODE_PATH}
+            export PATH="$PATH:${BUILD_DIR}/${NODE_PATH}/bin"
+            node -v
+
+echo "-----> Hacking less & node path"
+            ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
+            export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"
+
 # Composer Installation
 pushd ${BUILD_DIR} > /dev/null
 
@@ -283,6 +323,14 @@ DELIMETR`
 fi
 popd > /dev/null
 
+if [ -f "app/assets/package.json" ]
+then
+	echo "-----> Installing assets build-system"
+	pushd app/assets/ 
+	npm install
+	popd  > /dev/null
+fi
+
 # Config files
 echo "-----> Copying config files"
 cp $LP_DIR/conf/php-fpm.conf ${BUILD_DIR}/vendor/php/etc/php-fpm.conf
@@ -302,9 +350,9 @@ export SF_ENV="prod"
 # Deploying assets - for some reason cd is neccesary
 cd ${BUILD_DIR}
 echo "-------> Running: app/console assets:install --env=${SF_ENV}"
-LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assets:install
+LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assets:install --env=${SF_ENV}
 echo "-------> Running: app/console assetic:dump ${SF_DEBUG} --env=${SF_ENV}"
-LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assetic:dump
+LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assetic:dump ${SF_DEBUG} --env=${SF_ENV}
 
 
 echo "-----> Installing boot script"

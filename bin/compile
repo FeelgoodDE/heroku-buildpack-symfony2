@@ -230,6 +230,9 @@ then
 	# Deactivating plugins from php.ini (they won't be found)
 	sed -i 's/extension=\(\w*\.so\)/;extension=\1/g' ${BUILD_DIR}/vendor/php/bin/php.ini
 
+    echo "extension_dir=${PHP_ROOT}/lib/php/extensions/no-debug-non-zts-20100525" >> ${BUILD_DIR}/vendor/php/bin/php.ini
+    echo "extension=apc.so" >> ${BUILD_DIR}/vendor/php/bin/php.ini
+    echo "extension=mongo.so" >> ${BUILD_DIR}/vendor/php/bin/php.ini
 
 	if [ ! -r ${BUILD_DIR}/app/config/parameters.yml ]; then
 		if [ -r ${BUILD_DIR}/app/config/parameters_prod.yml.erb ]; then

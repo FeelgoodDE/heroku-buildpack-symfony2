@@ -14,7 +14,7 @@ support/package_icu
 support/package_nginx
 support/package_libmcrypt
 support/package_libmemcached
-support/package_newrelic
+#support/package_newrelic
 echo 'Now upload built packages to Amazon EC2 and make them public'
 pause 'Press [Enter] key to continue...'
 support/package_php

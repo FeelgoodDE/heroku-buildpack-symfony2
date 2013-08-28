@@ -10,20 +10,22 @@ set -o pipefail
 
 orig_dir=$( pwd )
 
+mkdir -p /app/vendor/php  # create php folder
+
 mkdir -p build && pushd build
 
 echo "+ Fetching libmcrypt libraries..."
 # install mcrypt for portability.
 mkdir -p /app/local
-curl -L "https://s3.amazonaws.com/${S3_BUCKET}/libmcrypt-${LIBMCRYPT_VERSION}.tar.gz" -o - | tar xz -C /app/local
+curl -L "https://${S3_BUCKET}.s3.amazonaws.com/libmcrypt-${LIBMCRYPT_VERSION}.tar.gz" -o - | tar xz -C /app/local
 
 echo "+ Fetching libmemcached libraries..."
 mkdir -p /app/local
-curl -L "https://s3.amazonaws.com/${S3_BUCKET}/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz" -o - | tar xz -C /app/local
+curl -L "https://${S3_BUCKET}.s3.amazonaws.com/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz" -o - | tar xz -C /app/local
 
 echo "+ Fetching libicu libraries..."
 mkdir -p /app/local
-curl -L "https://s3.amazonaws.com/${S3_BUCKET}/libicu-${LIBICU_VERSION}.tar.gz" -o - | tar xz -C /app/local
+curl -L "https://${S3_BUCKET}.s3.amazonaws.com/libicu-${LIBICU_VERSION}.tar.gz" -o - | tar xz -C /app/local
 
 echo "+ Fetching PHP sources..."
 #fetch php, extract
@@ -126,6 +128,32 @@ phpize
 ./configure
 make && make install
 # add "extension=redis.so" to php.ini
+popd
+
+echo "+ Installing mongoclient from source..."
+# install mongoclient
+git clone https://github.com/mongodb/mongo-php-driver.git
+pushd mongo-php-driver
+git checkout ${MONGOCLIENT_VERSION}
+
+phpize
+./configure
+make && make install
+# add "extension=mongo.so" to php.ini
+popd
+
+echo "+ Installing TWIG from source..."
+# install twig.so
+git clone https://github.com/fabpot/Twig.git
+pushd twig-php-driver
+git checkout v${TWIG_VERSION}
+pushd ext/twig
+
+phpize
+./configure
+make && make install
+# add "extension=twig.so" to php.ini
+popd
 popd
 
 echo "+ Install newrelic..."

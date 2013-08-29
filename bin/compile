@@ -425,10 +425,10 @@ done
 
 # Warmup Cache again because of changing pathes between build and live systems
 # Currently hardcoded to prod environment. Has to be adjusted. 
-pushd app/web
+cd app/web
 ../vendor/php/bin/php app/console assets:install --env=prod
 ../vendor/php/bin/php app/console assetic:dump --no-debug --env=prod
-popd  > /dev/null 
+cd -
 
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log /app/vendor/php/var/log/php-errors.log /app/local/var/log/newrelic/newrelic-daemon.log /app/local/var/log/newrelic/php_agent.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp

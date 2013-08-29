@@ -362,13 +362,13 @@ cat >>boot.sh <<EOF
 
 echo "Booting nginx"
 
+# Symfony2 database detection
+if [ -r /app/app/config/parameters_prod.yml.erb ]; then
+	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
+fi
+
 # Override config files if provided in app.
 if [ -d /app/conf ]; then
-
-	# Symfony2 database detection
-	if [ -r /app/app/config/parameters_prod.yml.erb ]; then
-		erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
-	fi
 
 	mkdir -p /app/conf/nginx.d
 
@@ -422,6 +422,11 @@ fi
 for var in \`env | cut -f1 -d=\`; do
 	echo "env[\$var] = \\$\${var}" >> /app/vendor/php/etc/php-fpm.conf
 done
+
+# Warmup Cache again because of changing pathes between build and live systems
+# Currently hardcoded to prod environment. Has to be adjusted. 
+app/vendor/php/bin/php app/app/console assets:install --env=prod
+add/vendor/php/bin/php app/app/console assetic:dump --no-debug --env=prod
 
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log /app/vendor/php/var/log/php-errors.log /app/local/var/log/newrelic/newrelic-daemon.log /app/local/var/log/newrelic/php_agent.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp

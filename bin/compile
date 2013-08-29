@@ -426,7 +426,7 @@ done
 # Warmup Cache again because of changing pathes between build and live systems
 # Currently hardcoded to prod environment. Has to be adjusted. 
 cd /app/web
-ls -R ../vendor/
+ls -R ../vendor/php/bin
 ../vendor/php/bin/php app/console assets:install --env=prod
 ../vendor/php/bin/php app/console assetic:dump --no-debug --env=prod
 cd -

@@ -145,7 +145,7 @@ popd
 echo "+ Installing TWIG from source..."
 # install twig.so
 git clone https://github.com/fabpot/Twig.git
-pushd twig-php-driver
+pushd Twig
 git checkout v${TWIG_VERSION}
 pushd ext/twig
 
@@ -154,6 +154,24 @@ phpize
 make && make install
 # add "extension=twig.so" to php.ini
 popd
+popd
+
+echo "+ Installing XCache..."
+# install xcache from source
+curl -L http://xcache.lighttpd.net/pub/Releases/${XCACHE_VERSION}/xcache-${XCACHE_VERSION}.tar.gz -o - | tar xz
+pushd xcache-${XCACHE_VERSION}
+phpize
+./configure --enable-xcache --with-php-config=/app/vendor/php/bin/php-config
+make && make install
+popd
+
+echo "+ Installing Imagick..."
+# install imagick from source
+curl -L http://pecl.php.net/get/imagick-${IMAGICK_VERSION}.tgz -o - | tar xz
+pushd imagick-${IMAGICK_VERSION}
+phpize
+./configure --with-php-config=/app/vendor/php/bin/php-config
+make && make install
 popd
 
 echo "+ Install newrelic..."

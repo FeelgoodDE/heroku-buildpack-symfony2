@@ -258,7 +258,7 @@ echo "-----> Hacking less & node path"
 
 # SupervisorD
     install "SupervisorD" $SUPERVISORD_FILE $SUPERVISORD_VERSION $SUPERVISORD_URL ${BUILD_DIR}/${SUPERVISORD_PATH}
-pushd SUPERVISORD_PATH  > /dev/null
+pushd $SUPERVISORD_PATH  > /dev/null
 python setup.py install
 popd > /dev/null
 

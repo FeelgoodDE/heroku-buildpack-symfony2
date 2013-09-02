@@ -262,7 +262,9 @@ echo "-----> Hacking less & node path"
 # Python SetupTools
     install "SetupTools" $SETUPTOOLS_FILE $SETUPTOOLS_VERSION $SETUPTOOLS_URL ${BUILD_DIR}/${SETUPTOOLS_PATH}
 pushd ${BUILD_DIR}/${SETUPTOOLS_PATH}/setuptools-${SETUPTOOLS_VERSION}  > /dev/null
-export PYTHONPATH="${PYTHONPATH}:${BUILD_DIR}/${SETUPTOOLS_PATH}/lib/python2.7/site-packages/"
+$PYTHON_SITEPACKAGES=${BUILD_DIR}/${SETUPTOOLS_PATH}/lib/python2.7/site-packages/
+mkdir -p ${PYTHON_SITEPACKAGES}
+export PYTHONPATH="${PYTHONPATH}:${PYTHON_SITEPACKAGES}"
 python setup.py install --prefix=${BUILD_DIR}/${SETUPTOOLS_PATH}
 popd > /dev/null
 

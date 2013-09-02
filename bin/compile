@@ -29,7 +29,7 @@ PHP_FILE="php-${PHP_VERSION}-with-fpm-heroku.tar.gz"
 NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
 NODE_FILE="node-${NODE_VERSION}-heroku.tar.gz"
 SUPERVISORD_FILE="supervisor-${SUPERVISORD_VERSION}.tar.gz"
-SETUPTOOLS_FILE="setuptools-${SUPERVISORD_VERSION}.tar.gz"
+SETUPTOOLS_FILE="setuptools-${SETUPTOOLS_VERSION}.tar.gz"
 
 MANIFEST_URL="${S3_URL}/${MANIFEST_FILE}"
 NGINX_URL="${S3_URL}/${NGINX_FILE}"

@@ -271,7 +271,7 @@ popd > /dev/null
 # SupervisorD
     install "SupervisorD" $SUPERVISORD_FILE $SUPERVISORD_VERSION $SUPERVISORD_URL ${BUILD_DIR}/${SUPERVISORD_PATH}
 pushd ${BUILD_DIR}/${SUPERVISORD_PATH}/supervisor-${SUPERVISORD_VERSION}  > /dev/null
-python setup.py install
+python setup.py install --prefix=${BUILD_DIR}/${SETUPTOOLS_PATH}
 popd > /dev/null
 
 # Composer Installation

@@ -464,6 +464,9 @@ if [ "\${NEW_RELIC_LICENSE_KEY}" -a ! -f /app/local/NEWRELIC_VERSION ]; then
 fi
 /app/vendor/php/sbin/php-fpm
 /app/vendor/nginx/sbin/nginx
+
+export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
+
 EOF
 chmod +x boot.sh
 

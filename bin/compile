@@ -13,6 +13,7 @@ PHP_VERSION=5.4.12
 NEWRELIC_VERSION=3.2.5.143
 NODE_VERSION=0.10.17
 SUPERVISORD_VERSION=3.0
+SETUPTOOLS_VERSION=1.1
 S3_BUCKET=feelgood-heroku-buildpack
 # END CONFIG
 
@@ -28,6 +29,7 @@ PHP_FILE="php-${PHP_VERSION}-with-fpm-heroku.tar.gz"
 NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
 NODE_FILE="node-${NODE_VERSION}-heroku.tar.gz"
 SUPERVISORD_FILE="supervisor-${SUPERVISORD_VERSION}.tar.gz"
+SETUPTOOLS_FILE="setuptools-${SUPERVISORD_VERSION}.tar.gz"
 
 MANIFEST_URL="${S3_URL}/${MANIFEST_FILE}"
 NGINX_URL="${S3_URL}/${NGINX_FILE}"
@@ -38,6 +40,7 @@ PHP_URL="${S3_URL}/${PHP_FILE}"
 NEWRELIC_URL="${S3_URL}/${NEWRELIC_FILE}"
 NODE_URL="${S3_URL}/${NODE_FILE}"
 SUPERVISORD_URL="${S3_URL}/${SUPERVISORD_FILE}"
+SETUPTOOLS_URL="${S3_URL}/${SETUPTOOLS_FILE}"
 COMPOSER_URL="http://getcomposer.org/composer.phar"
 #
 
@@ -100,6 +103,7 @@ LP_DIR=`cd $(dirname $0); cd ..; pwd`
 PHP_PATH="vendor/php"
 NODE_PATH="vendor/node"
 SUPERVISORD_PATH="vendor/supervisord"
+SETUPTOOLS_PATH="vendor/setuptools"
 
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
@@ -255,6 +259,11 @@ echo "-----> Hacking less & node path"
             ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
             export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"
 
+# Python SetupTools
+    install "SetupTools" $SETUPTOOLS_FILE $SETUPTOOLS_VERSION $SETUPTOOLS_URL ${BUILD_DIR}/${SETUPTOOLS_PATH}
+pushd ${BUILD_DIR}/${SUPERVISORD_PATH}/setuptools-${SETUPTOOLS_VERSION}  > /dev/null
+python setup.py install
+popd > /dev/null
 
 # SupervisorD
     install "SupervisorD" $SUPERVISORD_FILE $SUPERVISORD_VERSION $SUPERVISORD_URL ${BUILD_DIR}/${SUPERVISORD_PATH}

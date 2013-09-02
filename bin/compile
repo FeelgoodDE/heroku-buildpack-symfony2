@@ -251,9 +251,11 @@ echo "-----> Hacking less & node path"
             ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
             export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"
 
+echo "-----> Installing supervisord"
+easy_install supervisor
+
 # Composer Installation
 pushd ${BUILD_DIR} > /dev/null
-
 
 if [ -f "composer.json" ]
 then

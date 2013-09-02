@@ -12,6 +12,7 @@ LIBMEMCACHED_VERSION=1.0.7
 PHP_VERSION=5.4.12
 NEWRELIC_VERSION=3.2.5.143
 NODE_VERSION=0.10.17
+SUPERVISORD_VERSION=3.0
 S3_BUCKET=feelgood-heroku-buildpack
 # END CONFIG
 
@@ -26,6 +27,7 @@ ICU_FILE="libicu-${LIBICU_VERSION}.tar.gz"
 PHP_FILE="php-${PHP_VERSION}-with-fpm-heroku.tar.gz"
 NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
 NODE_FILE="node-${NODE_VERSION}-heroku.tar.gz"
+SUPERVISORD_FILE="supervisor-${SUPERVISORD_VERSION}.tar.gz"
 
 MANIFEST_URL="${S3_URL}/${MANIFEST_FILE}"
 NGINX_URL="${S3_URL}/${NGINX_FILE}"
@@ -35,6 +37,7 @@ ICU_URL="${S3_URL}/${ICU_FILE}"
 PHP_URL="${S3_URL}/${PHP_FILE}"
 NEWRELIC_URL="${S3_URL}/${NEWRELIC_FILE}"
 NODE_URL="${S3_URL}/${NODE_FILE}"
+SUPERVISOD_URL="${S3_URL}/${SUPERVISORD_FILE}"
 COMPOSER_URL="http://getcomposer.org/composer.phar"
 #
 
@@ -96,6 +99,7 @@ LP_DIR=`cd $(dirname $0); cd ..; pwd`
 #Paths
 PHP_PATH="vendor/php"
 NODE_PATH="vendor/node"
+SUPERVISORD_PATH="vendor/supervisord"
 
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
@@ -251,8 +255,12 @@ echo "-----> Hacking less & node path"
             ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
             export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"
 
-echo "-----> Installing supervisord"
-easy_install supervisor
+
+# SupervisorD
+    install "Node" $SUPERVISOD_FILE $SUPERVISOD_VERSION $SUPERVISOD_URL ${BUILD_DIR}/${SUPERVISORD_PATH}
+pushd SUPERVISORD_PATH  > /dev/null
+python setup.py install
+popd > /dev/null
 
 # Composer Installation
 pushd ${BUILD_DIR} > /dev/null

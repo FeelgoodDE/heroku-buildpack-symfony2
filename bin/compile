@@ -255,10 +255,6 @@ popd > /dev/null
             export PATH="$PATH:${BUILD_DIR}/${NODE_PATH}/bin"
             node -v
 
-echo "-----> Hacking less & node path"
-            ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
-            export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"
-
 # Python SetupTools
     install "SetupTools" $SETUPTOOLS_FILE $SETUPTOOLS_VERSION $SETUPTOOLS_URL ${BUILD_DIR}/${SETUPTOOLS_PATH}
 pushd ${BUILD_DIR}/${SETUPTOOLS_PATH}/setuptools-${SETUPTOOLS_VERSION}  > /dev/null
@@ -352,6 +348,10 @@ then
 	npm install
 	popd  > /dev/null
 fi
+
+echo "-----> Hacking less & node path"
+            ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
+            export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"
 
 # Config files
 echo "-----> Copying config files"

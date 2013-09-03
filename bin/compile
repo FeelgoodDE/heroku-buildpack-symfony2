@@ -122,9 +122,7 @@ function run_npm() {
   command="$1"
 
   cd $BUILD_DIR
-  ls -la $NPM_PATH/npm-${NPM_VERSION}/
-  ls -la $NPM_PATH/
-  HOME="$BUILD_DIR" $NODE_PATH/bin/node $NPM_PATH/npm-${NPM_VERSION}/cli.js $command 2>&1 | indent
+  HOME="$BUILD_DIR" $NODE_PATH/bin/node $NPM_PATH/cli.js $command 2>&1 | indent
 
   if [ "${PIPESTATUS[*]}" != "0 0" ]; then
     echo " !     Failed to $command dependencies with npm"
@@ -283,8 +281,6 @@ popd > /dev/null
 
 # NPM
     install "NPM" $NPM_FILE $NPM_VERSION $NPM_URL ${NPM_PATH}
-  ls -la $NPM_PATH/npm-${NPM_VERSION}/
-  ls -la $NPM_PATH/
             run_npm "version"
 
 

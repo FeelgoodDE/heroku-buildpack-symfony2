@@ -55,6 +55,13 @@ function indent() {
 	esac
 }
 
+function mktmpdir() {
+  dir=$(mktemp -t node-$1-XXXX)
+  rm -rf $dir
+  mkdir -p $dir
+  echo $dir
+}
+
 function check_md5() {
 	SUMS_FILE="${BUNDLE_DIR}/${MANIFEST_FILE}"
 	TARGET="$1"

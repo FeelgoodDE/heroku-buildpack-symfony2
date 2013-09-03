@@ -1,0 +1,37 @@
+#!/bin/sh
+
+set -e
+
+if [ "$NPM_VERSION" == "" ]; then
+  echo "must set NPM_VERSION, i.e NPM_VERSION=1.3.9"
+  exit 1
+fi
+
+basedir="$( cd -P "$( dirname "$0" )" && pwd )"
+
+# make a temp directory
+tempdir="$( mktemp -t npm_XXXX )"
+rm -rf $tempdir
+mkdir -p $tempdir
+pushd $tempdir
+
+# download npm
+git clone https://github.com/isaacs/npm.git
+
+# go into npm dir
+pushd npm
+
+# grab the right version
+git checkout v${NPM_VERSION}
+git submodule update --init --recursive
+
+# package it up
+tar czvf $tempdir/npm-${NPM_VERSION}.tar.gz *
+
+popd
+popd
+
+cp $tempdir/npm-${NPM_VERSION}.tar.gz .
+echo "+ Binaries available at ./npm-${NPM_VERSION}.tar.gz"
+
+echo "+ Upload this package to Amazon S3."

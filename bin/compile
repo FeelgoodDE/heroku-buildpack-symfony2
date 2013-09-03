@@ -345,7 +345,7 @@ DELIMETR`
 fi
 popd > /dev/null
 
-if [ -f "app/assets/package.json" ]
+if [ -f "${BUILD_DIR}/app/assets/package.json" ]
 then
 	echo "-----> Installing assets build-system"
 	pushd app/assets/ 

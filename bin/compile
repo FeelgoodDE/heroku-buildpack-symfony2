@@ -119,7 +119,7 @@ SETUPTOOLS_PATH="vendor/setuptools"
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
 function run_npm() {
-  command="$2"
+  command="$1"
 
   cd $BUILD_DIR/app/assets
   HOME="$BUILD_DIR/app/assets" $BUILD_DIR/$NODE_PATH/bin/node $NPM_PATH/cli.js $command 2>&1 | indent

@@ -119,10 +119,10 @@ SETUPTOOLS_PATH="vendor/setuptools"
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
 function run_npm() {
-  command="$1"
+  command="$2"
 
-  cd $BUILD_DIR
-  HOME="$BUILD_DIR" $NODE_PATH/bin/node $NPM_PATH/cli.js $command 2>&1 | indent
+  cd $BUILD_DIR/app/assets
+  HOME="$BUILD_DIR/app/assets" $NODE_PATH/bin/node $NPM_PATH/cli.js $command 2>&1 | indent
 
   if [ "${PIPESTATUS[*]}" != "0 0" ]; then
     echo " !     Failed to $command dependencies with npm"
@@ -281,8 +281,6 @@ popd > /dev/null
 
 # NPM
     install "NPM" $NPM_FILE $NPM_VERSION $NPM_URL ${NPM_PATH}
-            run_npm "version"
-
 
 # Python SetupTools
     install "SetupTools" $SETUPTOOLS_FILE $SETUPTOOLS_VERSION $SETUPTOOLS_URL ${BUILD_DIR}/${SETUPTOOLS_PATH}

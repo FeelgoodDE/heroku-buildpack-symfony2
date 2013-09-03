@@ -345,6 +345,8 @@ if [ -f "${BUILD_DIR}/app/assets/package.json" ]
 then
 	echo "-----> Installing assets build-system"
 	pushd ${BUILD_DIR}/app/assets/ 
+	npm
+	npm version
 	npm install
 	popd  > /dev/null
 fi

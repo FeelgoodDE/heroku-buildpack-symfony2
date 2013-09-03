@@ -268,7 +268,7 @@ popd > /dev/null
 
 # NPM
     install "NPM" $NPM_FILE $NPM_VERSION $NPM_URL ${NPM_PATH}
-            ${NPM_PATH}/npm version
+            ${NPM_PATH}/bin/npm version
 
 
 # Python SetupTools
@@ -361,7 +361,7 @@ if [ -f "${BUILD_DIR}/app/assets/package.json" ]
 then
 	echo "-----> Installing assets build-system"
 	pushd ${BUILD_DIR}/app/assets/ 
-	$NPM_PATH/npm install # --production
+	$NPM_PATH/bin/npm install # --production
 	popd  > /dev/null
 fi
 

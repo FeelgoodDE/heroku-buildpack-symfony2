@@ -118,6 +118,19 @@ SETUPTOOLS_PATH="vendor/setuptools"
 
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
+function run_npm() {
+  command="$1"
+
+  cd $BUILD_DIR
+  HOME="$BUILD_DIR" $NODE_PATH/bin/node $NPM_PATH/cli.js $command 2>&1 | indent
+
+  if [ "${PIPESTATUS[*]}" != "0 0" ]; then
+    echo " !     Failed to $command dependencies with npm"
+    exit 1
+  fi
+}
+
+
 # include .files when moving things around
 shopt -s dotglob
 
@@ -268,7 +281,7 @@ popd > /dev/null
 
 # NPM
     install "NPM" $NPM_FILE $NPM_VERSION $NPM_URL ${NPM_PATH}
-            ${NPM_PATH}/bin/npm version
+            $run_npm "version"
 
 
 # Python SetupTools
@@ -361,7 +374,7 @@ if [ -f "${BUILD_DIR}/app/assets/package.json" ]
 then
 	echo "-----> Installing assets build-system"
 	pushd ${BUILD_DIR}/app/assets/ 
-	$NPM_PATH/bin/npm install # --production
+            $run_npm "install" # "install production"
 	popd  > /dev/null
 fi
 

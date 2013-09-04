@@ -379,13 +379,16 @@ then
 	if [ -f "${BUILD_DIR}/app/assets/Gruntfile.js" ]
 	then
 		echo "-----> Executing grunt ..."
-		pushd ${BUILD_DIR} 
-            app/assets/node_modules/grunt-cli/bin/grunt app/assets/Gruntfile.js --env=prod
+		pushd ${BUILD_DIR}/app/assets/
+            node_modules/grunt-cli/bin/grunt Gruntfile.js --env=prod
+	        rm -r `ls | egrep -v 'dest|images|fonts|components'`
+		popd  > /dev/null
+
+		pushd ${BUILD_DIR}
 	        ln -s app/assets/dest web/assets/dest
 	        ln -s app/assets/images web/assets/images
 	        ln -s app/assets/fonts web/assets/fonts
 	        ln -s app/assets/components web/assets/components
-	        rm -r `ls | egrep -v 'dest|images|fonts|components'`
 		popd  > /dev/null
 	fi
 fi

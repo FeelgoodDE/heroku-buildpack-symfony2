@@ -122,6 +122,7 @@ function run_npm() {
   command="$1"
 
   cd $BUILD_DIR/app/assets
+  HOME="$BUILD_DIR/app/assets" $BUILD_DIR/$NODE_PATH/bin/node $NPM_PATH/cli.js config set cache ${CACHE_DIR}/npm 2>&1 | indent
   HOME="$BUILD_DIR/app/assets" $BUILD_DIR/$NODE_PATH/bin/node $NPM_PATH/cli.js $command 2>&1 | indent
 
   if [ "${PIPESTATUS[*]}" != "0 0" ]; then

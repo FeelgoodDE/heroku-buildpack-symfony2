@@ -380,7 +380,7 @@ then
 	then
 		echo "-----> Executing grunt ..."
 		pushd ${BUILD_DIR}/app/assets/
-            node_modules/grunt-cli/bin/grunt Gruntfile.js --env=prod
+            node_modules/grunt-cli/bin/grunt --env=prod
 	        rm -r `ls | egrep -v 'dest|images|fonts|components'`
 		popd  > /dev/null
 

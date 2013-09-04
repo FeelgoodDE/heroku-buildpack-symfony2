@@ -379,7 +379,7 @@ then
 	then
 		echo "-----> Executing grunt ..."
 		pushd ${BUILD_DIR} 
-            app/assets/ode_modules/.bin/grunt app/assets/Gruntfile.js
+            app/assets/node_modules/.bin/grunt app/assets/Gruntfile.js
 	        ln -s app/assets/dest web/assets/dest
 	        ln -s app/assets/images web/assets/images
 	        ln -s app/assets/fonts web/assets/fonts

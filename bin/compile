@@ -385,6 +385,7 @@ then
 	if [ -f "${BUILD_DIR}/app/assets/Gruntfile.js" ]
 	then
 		echo "-----> Executing grunt ..."
+		export LC_CTYPE="en_US.UTF-8" # fix locale for ruby (SASS)
 		pushd ${BUILD_DIR}/app/assets/
             node_modules/grunt-cli/bin/grunt --env=prod
 	        rm -r `ls | egrep -v 'dest|images|fonts|components'`

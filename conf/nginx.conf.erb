@@ -32,7 +32,9 @@ http {
     index app.php index.php index.html index.htm;
 
     # Some basic cache-control for static files to be sent to the browser
-    location ~* \.(?:ico|css|js|gif|jpeg|jpg|png)$ {
+    # If the request path starts with "/image/" this rule will not match because in this case we want the request to hit
+    # our application so that the application can handle CDN stuff
+    location ~* ^(?!\/image\/).*\.(?:ico|css|js|gif|jpeg|jpg|png)$ {
       expires max;
       add_header Pragma public;
       add_header Cache-Control "public, must-revalidate, proxy-revalidate";

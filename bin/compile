@@ -346,6 +346,7 @@ then
 
 	if [ ! -r ${BUILD_DIR}/app/config/parameters.yml ]; then
 		if [ -r ${BUILD_DIR}/app/config/parameters_prod.yml.erb ]; then
+			echo "Configuring app" | indent
 			erb ${BUILD_DIR}/app/config/parameters_prod.yml.erb > ${BUILD_DIR}/app/config/parameters.yml
 		else
 

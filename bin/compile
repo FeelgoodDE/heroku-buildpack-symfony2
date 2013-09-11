@@ -281,6 +281,7 @@ popd > /dev/null
 
 # Phing
     install "Phing" $PHING_FILE $PHING_VERSION $PHING_URL ${BUILD_DIR}/${PHING_PATH}
+    ln -s ${BUILD_DIR}/${PHING_PATH}/phing-${PHING_VERSION} ${BUILD_DIR}/${PHING_PATH}/phing
 
 # NODE
     install "Node" $NODE_FILE $NODE_VERSION $NODE_URL ${BUILD_DIR}/${NODE_PATH}

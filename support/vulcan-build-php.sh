@@ -42,6 +42,7 @@ echo "+ Configuring PHP..."
 --with-config-file-scan-dir=/app/vendor/php/etc.d \
 --disable-debug \
 --disable-rpath \
+--enable-exif \
 --enable-fpm \
 --enable-gd-native-ttf \
 --enable-inline-optimization \

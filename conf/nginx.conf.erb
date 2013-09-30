@@ -97,7 +97,7 @@ http {
 
     location ~ .*\.php$ {
       try_files $uri =404;
-      limit_conn phplimit 5; # limit to 5 concurrent users to PHP per IP.
+      limit_conn phplimit 4; # limit to 5 concurrent users to PHP per IP.
       include /app/vendor/nginx/conf/fastcgi_params;
       fastcgi_param HTTPS on; # force SSL
       fastcgi_pass php_fpm;

@@ -413,21 +413,24 @@ echo "-----> Hacking less & node path"
             ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
             export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"
 
-echo "-----> Installing assets"
-# Sets the debug flag depending on Sf2 env (declared at the begeining of the file)
-export SF_DEBUG="--no-debug"
-export SF_ENV="prod"
+if [-f "${BUILD_DIR}/app/console" ]
+then
+	echo "-----> Detected Symfony2 app"
+	echo "-----> Installing assets"
+	# Sets the debug flag depending on Sf2 env (declared at the begeining of the file)
+	export SF_DEBUG="--no-debug"
+	export SF_ENV="prod"
 
-# Deploying assets - for some reason cd is neccesary
-cd ${BUILD_DIR}
-echo "-------> Running: app/console assets:install --env=${SF_ENV}"
-LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assets:install --env=${SF_ENV}
-echo "-------> Running: app/console assetic:dump ${SF_DEBUG} --env=${SF_ENV}"
-LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assetic:dump ${SF_DEBUG} --env=${SF_ENV}
+	# Deploying assets - for some reason cd is neccesary
+	cd ${BUILD_DIR}
+	echo "-------> Running: app/console assets:install --env=${SF_ENV}"
+	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assets:install --env=${SF_ENV}
+	echo "-------> Running: app/console assetic:dump ${SF_DEBUG} --env=${SF_ENV}"
+	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assetic:dump ${SF_DEBUG} --env=${SF_ENV}
 
-echo "-------> Clearing cache again: app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-warmup"
-LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-warmup
-
+	echo "-------> Clearing cache again: app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-warmup"
+	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-warmup
+fi
 
 # Config files
 echo "-----> Copying config files"

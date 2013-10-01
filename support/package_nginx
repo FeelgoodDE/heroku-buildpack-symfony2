@@ -7,6 +7,11 @@ if [ "$NGINX_VERSION" == "" ]; then
   exit 1
 fi
 
+if [ "$PCRE_VERSION" == "" ]; then
+  echo "must set PCRE_VERSION, i.e PCRE_VERSION=8.21"
+  exit 1
+fi
+
 basedir="$( cd -P "$( dirname "$0" )" && pwd )"
 
 # make a temp directory
@@ -20,11 +25,11 @@ curl -L http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o - | tar xz
 
 # download and extract pcre into contrib directory
 pushd nginx-$NGINX_VERSION/contrib
-curl -L ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.21.tar.gz -o - | tar zx
+curl -L ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION.tar.gz -o - | tar zx
 popd
 
 # build and package nginx for heroku
-vulcan build -v -s nginx-$NGINX_VERSION -o $tempdir/nginx-$NGINX_VERSION-heroku.tar.gz -p /app/vendor/nginx -c './configure --prefix=/app/vendor/nginx --with-pcre=contrib/pcre-8.21 --with-http_ssl_module --with-http_gzip_static_module --with-http_stub_status_module && make install' 
+vulcan build -v -s nginx-$NGINX_VERSION -o $tempdir/nginx-$NGINX_VERSION-heroku.tar.gz -p /app/vendor/nginx -c "./configure --prefix=/app/vendor/nginx --with-pcre=contrib/pcre-$PCRE_VERSION --with-http_ssl_module --with-http_gzip_static_module --with-http_stub_status_module && make install" 
 
 popd
 

@@ -559,7 +559,7 @@ if [ -r /app/app/config/supervisord.conf ]; then
 	mkdir -p /app/log/supervisor
 	mkdir -p /app/tmp
 
-	supervisord --configuration /app/app/config/supervisord.conf --nodaemon
+	python vendor/supervisord/supervisor-3.0/build/lib/supervisor/supervisord.py --configuration /app/app/config/supervisord.conf --nodaemon
 else
 	echo "No supervisor.d config found. (Place it inside: /app/config/supervisord.conf)"
 fi

@@ -555,6 +555,10 @@ fi
 
 if [ -r /app/app/config/supervisord.conf ]; then
 	echo "Starting up supervisor.d ..."
+	export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
+	mkdir -p /app/log/supervisor
+	mkdir -p /app/tmp
+
 	supervisord --configuration /app/app/config/supervisord.conf --nodaemon
 else
 	echo "No supervisor.d config found. (Place it inside: /app/config/supervisord.conf)"

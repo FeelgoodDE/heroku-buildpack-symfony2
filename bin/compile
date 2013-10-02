@@ -543,6 +543,26 @@ export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 EOF
 chmod +x boot.sh
 
+cat >>bootWorker.sh <<EOF
+#!/usr/bin/env bash
+
+echo "Booting worker"
+
+# Symfony2 database detection
+if [ -r /app/app/config/parameters_prod.yml.erb ]; then
+	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
+fi
+
+if [ -r /app/app/config/supervisord.conf ]; then
+	echo "Starting up supervisor.d ..."
+	supervisord --configuration /app/app/config/supervisord.conf --nodaemon
+else
+	echo "No supervisor.d config found. (Place it inside: /app/config/supervisord.conf)"
+fi
+EOF
+chmod +x bootWorker.sh
+
+
 echo "-----> Preparing phing during compile"
 export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 

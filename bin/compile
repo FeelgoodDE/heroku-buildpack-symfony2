@@ -450,6 +450,10 @@ if [ -f "${BUILD_DIR}/vendor/php/bin/php.ini" ]
 then
 	rm ${BUILD_DIR}/vendor/php/bin/php.ini # remove temporary php.ini file
 fi
+if [ -f "${BUILD_DIR}/app/config/parameters.yml" ]
+then
+	rm ${BUILD_DIR}/app/config/parameters.yml # remove generated parameters.yml. Needs to be regeneated at bootup. 
+fi
 cp $LP_DIR/conf/php.ini ${BUILD_DIR}/vendor/php/php.ini
 cp -a $LP_DIR/conf/etc.d ${BUILD_DIR}/vendor/php/
 cp $LP_DIR/conf/nginx.conf.erb ${BUILD_DIR}/vendor/nginx/conf/nginx.conf.erb

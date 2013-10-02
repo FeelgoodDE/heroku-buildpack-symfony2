@@ -328,15 +328,6 @@ then
 		download_url ${COMPOSER_URL}
 	fi
 
-	echo -e "Checking for custom deploy_key ... \c" | indent
-	if [ ! -f "${BUILD_DIR}/app/app/config/.ssh/deploy_key" ]
-	then
-		echo "found! Installing ... "
-		ssh-add ${BUILD_DIR}/app/app/config/.ssh/deploy_key
-	else
-		echo "missing! "
-	fi
-
 	echo "configuring build-system php for composer" | indent
     # Php installation for bootstrap
     PHP_ROOT=${BUILD_DIR}/${PHP_PATH}

@@ -1,3 +1,15 @@
+<%
+  allow_access_rules = "";
+  if (['1', 'on', 'true'].index(ENV['IP_RESTRICTION'])) 
+    ENV.each_pair {|key, value| 
+      if (key.kind_of?(String) && key.match(/^IP_RESTRICTION_ALLOW_(\d+)$/))
+        allow_access_rules += "allow " + ENV[key] + ";\n"
+      end
+    } 
+    allow_access_rules += "deny all;\n"
+  end
+%>
+
 # setting worker_processes to CPU core count
 worker_processes 1;
 daemon off;
@@ -77,6 +89,7 @@ http {
     rewrite ^/app\.php/?(.*)$ /$1 permanent;
 
     location / {
+      <%= allow_access_rules %>
       index app.php;
       try_files $uri @rewriteapp;
     }
@@ -87,6 +100,7 @@ http {
 
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
     location ~ ^/(app|app_dev)\.php(/|$) {
+      <%= allow_access_rules %>
       fastcgi_pass  php_fpm;
       fastcgi_split_path_info ^(.+\.php)(/.*)$;
       include fastcgi_params;
@@ -96,6 +110,7 @@ http {
 
 
     location ~ .*\.php$ {
+      <%= allow_access_rules %>
       try_files $uri =404;
       limit_conn phplimit 4; # limit to 5 concurrent users to PHP per IP.
       include /app/vendor/nginx/conf/fastcgi_params;

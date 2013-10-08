@@ -390,6 +390,14 @@ then
             run_npm "install" # "install production"
 	popd  > /dev/null
 
+	if [ -f "${BUILD_DIR}/app/assets/bower.json" ]
+	then
+		echo "-----> Executing bower"
+		pushd ${BUILD_DIR}/app/assets/
+            node_modules/bower/bin/bower install
+		popd  > /dev/null
+	fi
+
 	if [ -f "${BUILD_DIR}/app/assets/Gruntfile.js" ]
 	then
 		echo "-----> Executing grunt ..."

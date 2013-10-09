@@ -566,7 +566,7 @@ then
 	echo "-----> Detected Symfony2 app"
 	echo "-------> Cache warmup: app/console cache:clear --no-debug --env=prod"
 
-	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console cache:clear --no-debug --env=prod
+	app/console cache:clear --no-debug --env=prod
 fi
 
 if [ -r /app/app/config/supervisord.conf ]; then
@@ -584,7 +584,7 @@ if [ -r /app/app/config/supervisord.conf ]; then
 	do
 	        touch $logfile
 	done
-	(tail -f -n 0 /app/log/*.log &)
+	(tail -f -n 0 /app/log/supervisor/*.log &)
 
 	echo "Starting up supervisor.d ..."
 	export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/

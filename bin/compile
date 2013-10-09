@@ -570,6 +570,22 @@ then
 fi
 
 if [ -r /app/app/config/supervisord.conf ]; then
+	echo "Found SupervisorD config"
+	echo "Preparing logfiles ..."
+
+	# Get all logfiles from supervisorD config
+	logfiles="`cat app/config/supervisord.conf | grep '_logfile' | awk 'BEGIN { FS = "=" } ; {print $2}'`"
+
+	#Set the field separator to new line
+	IFS=$'\n'
+
+	#Try to iterate over each line
+	for logfile in $logfiles
+	do
+	        touch $logfile
+	done
+	(tail -f -n 0 /app/log/*.log &)
+
 	echo "Starting up supervisor.d ..."
 	export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
 	mkdir -p /app/log/supervisor

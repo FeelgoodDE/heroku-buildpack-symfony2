@@ -387,7 +387,7 @@ if [ -f "${BUILD_DIR}/app/assets/package.json" ]
 then
 	echo "-----> Installing assets build-system"
 	pushd ${BUILD_DIR}/app/assets/ 
-            run_npm "install" # "install production"
+            run_npm "install  --loglevel info" # "install production"
 	popd  > /dev/null
 
 	if [ -f "${BUILD_DIR}/app/assets/bower.json" ]

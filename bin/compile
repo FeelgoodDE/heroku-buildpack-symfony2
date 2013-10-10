@@ -510,8 +510,8 @@ if [ -d /app/conf/nginx.d ]; then
 fi
 
 # Set NEWRELIC key
-if [ "\${NEW_RELIC_LICENSE_KEY}"]; then
-	if [ -w "/app/vendor/php/etc.d/04_newrelic.ini"] then
+if [ "\${NEW_RELIC_LICENSE_KEY}" ]; then
+	if [ -w "/app/vendor/php/etc.d/04_newrelic.ini" ] then
 		echo "No writable 04_newrelic.ini config file found. Skipping new relic key from ENV ..."
 	else
 		echo "Setting NEWRELIC license from ENV ... "

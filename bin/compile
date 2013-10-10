@@ -510,9 +510,13 @@ if [ -d /app/conf/nginx.d ]; then
 fi
 
 # Set NEWRELIC key
-if [ "\${NEW_RELIC_LICENSE_KEY}" ]; then
-	echo "NEWRELIC license setted to ${NEW_RELIC_LICENSE_KEY}"
-	sed -i "s|REPLACE_WITH_REAL_KEY||g" /app/vendor/php/etc.d/04_newrelic.ini
+if [ "\${NEW_RELIC_LICENSE_KEY}"]; then
+	if [ -w "/app/vendor/php/etc.d/04_newrelic.ini"] then
+		echo "No writable 04_newrelic.ini config file found. Skipping new relic key from ENV ..."
+	else
+		echo "Setting NEWRELIC license from ENV ... "
+		sed -i "s|REPLACE_WITH_REAL_KEY|$NEW_RELIC_LICENSE_KEY|g" /app/vendor/php/etc.d/04_newrelic.ini
+	fi
 else
 	if [ -r /app/vendor/php/etc.d/04_newrelic.ini ]; then
 		echo "No new Relic license found, disabling New Relic extension ..."

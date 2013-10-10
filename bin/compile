@@ -514,10 +514,10 @@ if [ "\${NEW_RELIC_LICENSE_KEY}" -a -x "/app/local/bin/newrelic-license" ]; then
 	echo "NEWRELIC license setted to ${NEW_RELIC_LICENSE_KEY}"
 	/app/local/bin/newrelic-license
 else
-	if [ -r /app/vendor/php/etc.d/04_newrelic.conf ]; then
+	if [ -r /app/vendor/php/etc.d/04_newrelic.ini ]; then
 		echo "No new Relic license found, disabling New Relic extension ..."
 		echo "-->   Please set NEW_RELIC_LICENSE_KEY config variable   <--"
-		rm /app/vendor/php/etc.d/04_newrelic.conf
+		rm /app/vendor/php/etc.d/04_newrelic.ini
 	fi
 fi
 

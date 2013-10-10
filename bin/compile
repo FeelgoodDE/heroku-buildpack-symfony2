@@ -590,6 +590,7 @@ if [ -r /app/app/config/supervisord.conf ]; then
 	IFS=$'\n'
 
 	#Try to iterate over each line
+	mkdir -p /app/log/supervisor
 	for logfile in $logfiles
 	do
 	        touch $logfile
@@ -598,7 +599,6 @@ if [ -r /app/app/config/supervisord.conf ]; then
 
 	echo "Starting up supervisor.d ..."
 	export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
-	mkdir -p /app/log/supervisor
 	mkdir -p /app/tmp
 
 	python vendor/supervisord/supervisor-3.0/build/lib/supervisor/supervisord.py --configuration /app/app/config/supervisord.conf --nodaemon

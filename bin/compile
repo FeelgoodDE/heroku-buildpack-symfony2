@@ -615,4 +615,17 @@ chmod +x bootWorker.sh
 echo "-----> Preparing phing during compile"
 export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 
+if [ "${NEW_RELIC_LICENSE_KEY}" ]; then
+	if [ "${NEW_RELIC_API_KEY}" ]; then
+		if [ "${NEW_RELIC_APPLICATION_ID}" ]; then
+			echo "-----> Notifying New Relic about new deploy ..."
+			curl -H "x-api-key:${NEW_RELIC_API_KEY}" -d "deployment[application_id]=${NEW_RELIC_APPLICATION_ID}" https://rpm.newrelic.com/deployments.xml --silent > /dev/null
+		else
+			echo "-----> New Relic Application-ID not found. Please configure NEW_RELIC_APPLICATION_ID ..."
+		fi
+	else
+		echo "-----> You could send Deploy-Events to New Relic automatically. Please configure NEW_RELIC_API_KEY and NEW_RELIC_APPLICATION_ID ..."
+	fi
+fi
+
 echo "-----> Done with compile"

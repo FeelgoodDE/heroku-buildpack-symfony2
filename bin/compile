@@ -596,7 +596,7 @@ if [ -r /app/app/config/supervisord.conf ]; then
 	mkdir -p /app/log/supervisor
 	for logfile in $logfiles
 	do
-	        touch $logfile
+        mkfifo $logfile
 	done
 	(tail -f -n 0 /app/log/supervisor/*.log &)
 

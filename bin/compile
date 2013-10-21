@@ -281,8 +281,6 @@ fi
 
 tar xzf ${NEWRELIC_FILE} -C ${BUILD_DIR}/local
 
-popd > /dev/null
-
 # Phing
     install "Phing" $PHING_FILE $PHING_VERSION $PHING_URL ${BUILD_DIR}/${PHING_PATH}
     ln -s ${BUILD_DIR}/${PHING_PATH}/phing-${PHING_VERSION} ${BUILD_DIR}/${PHING_PATH}/phing

@@ -613,6 +613,79 @@ fi
 EOF
 chmod +x bootWorker.sh
 
+cat >>bootTest.sh <<EOF
+#!/usr/bin/env bash
+
+echo "Booting nginx"
+
+# Symfony2 database detection
+if [ -r /app/app/config/parameters_prod.yml.erb ]; then
+	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
+fi
+
+# Override config files if provided in app.
+if [ -d /app/conf ]; then
+
+	mkdir -p /app/conf/nginx.d
+
+	if [ -d /app/conf/etc.d ]; then
+		cp -f /app/conf/etc.d/* /app/vendor/php/etc.d/
+	fi
+
+	if [ -r /app/conf/php-fpm.conf ]; then
+		cp -f /app/conf/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
+	fi
+
+	if [ -r /app/conf/php.ini ]; then
+		cp -f /app/conf/php.ini /app/vendor/php/php.ini
+	fi
+
+	if [ -r /app/conf/nginx.conf.erb ]; then
+		cp -f /app/conf/nginx.conf.erb /app/vendor/nginx/conf/nginx.conf.erb
+	fi
+
+fi
+
+# Set correct port variable.
+erb /app/vendor/nginx/conf/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
+
+if [ -d /app/conf/nginx.d ]; then
+	# Parse .erb into .conf.
+	for f in /app/conf/nginx.d/*.erb
+	do
+		if [ -r "\${f}" ];
+		then
+			erb "\${f}" > "\${f}.conf"
+		fi
+	done
+fi
+
+# Preserve current php-fpm.conf so that env list does
+# not go out of hand across restarts.
+if [ -r /app/vendor/php/etc/php-fpm.conf.current ]; then
+	cp -f /app/vendor/php/etc/php-fpm.conf.current /app/vendor/php/etc/php-fpm.conf
+else
+	cp -f /app/vendor/php/etc/php-fpm.conf /app/vendor/php/etc/php-fpm.conf.current
+fi
+
+# Expose Heroku config vars to PHP-FPM processes
+for var in \`env | cut -f1 -d=\`; do
+	echo "env[\$var] = \\$\${var}" >> /app/vendor/php/etc/php-fpm.conf
+done
+
+touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log /app/vendor/php/var/log/php-errors.log /app/local/var/log/newrelic/newrelic-daemon.log /app/local/var/log/newrelic/php_agent.log
+mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
+(tail -f -n 0 /app/vendor/nginx/logs/*.log /app/vendor/php/var/log/*.log /app/local/var/log/newrelic/*.log &)
+
+/app/vendor/php/sbin/php-fpm
+/app/vendor/nginx/sbin/nginx
+
+export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
+export PHING_HOME="$BUILD_DIR/$PHING_PATH"
+EOF
+
+chmod +x bootTest.sh
+
 
 echo "-----> Preparing phing during compile"
 export PHING_HOME="$BUILD_DIR/$PHING_PATH"

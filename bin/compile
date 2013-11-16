@@ -382,8 +382,6 @@ DELIMETR`
 
 	# do the deed!
 	echo "Running: php composer.phar install" | indent
-    git --version
- 	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php composer.phar --version | indent
 	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php composer.phar install -n --no-dev --optimize-autoloader | indent
 
 	export GIT_DIR=${GIT_DIR_ORIG}

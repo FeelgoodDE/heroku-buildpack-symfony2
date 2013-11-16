@@ -397,9 +397,12 @@ then
 
 	if [ -f "${BUILD_DIR}/app/assets/bower.json" ]
 	then
+		echo "-----> Removing bower cache dir"
+			rm -rf ${CACHE_DIR}/bower
+
 		echo "-----> Executing bower"
 		pushd ${BUILD_DIR}/app/assets/
-             node_modules/bower/bin/bower install --quiet
+		     node_modules/bower/bin/bower install --quiet
 #             node_modules/bower/bin/bower install --quiet --config.storage.cache=${CACHE_DIR}/bower
 		popd  > /dev/null
 	fi

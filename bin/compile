@@ -326,12 +326,12 @@ then
 	GIT_DIR_ORIG=${GIT_DIR}
 	unset GIT_DIR
 
-	if [ ! -f "composer.phar" ]
-	then
+#	if [ ! -f "composer.phar" ]
+#	then
 		echo "Fetching composer.phar" | indent
 		echo ${COMPOSER_URL} | indent
 		download_url ${COMPOSER_URL}
-	fi
+#	fi
 
 	echo "configuring build-system php for composer" | indent
     # Php installation for bootstrap

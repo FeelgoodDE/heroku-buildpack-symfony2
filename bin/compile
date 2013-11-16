@@ -120,7 +120,6 @@ NPM_PATH="$(mktmpdir npm)"
 SUPERVISORD_PATH="vendor/supervisord"
 SETUPTOOLS_PATH="vendor/setuptools"
 
-rm -rf ${CACHE_DIR}/.composer
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
 # Support Anvil Build_IDs

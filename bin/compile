@@ -402,7 +402,8 @@ then
 
 		echo "-----> Executing bower"
 		pushd ${BUILD_DIR}/app/assets/
-             node_modules/bower/bin/bower install --quiet --config.storage.cache=${CACHE_DIR}/bower
+             node_modules/bower/bin/bower install --verbose --config.storage.cache=${CACHE_DIR}/bower
+#             node_modules/bower/bin/bower install --quiet --config.storage.cache=${CACHE_DIR}/bower
 		popd  > /dev/null
 	fi
 

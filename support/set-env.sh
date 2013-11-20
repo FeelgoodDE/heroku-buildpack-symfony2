@@ -18,7 +18,7 @@ export LIBICU_VERSION="50.1.2"
 export LIBPNG_VERSION="1.6.3"
 export IMAGE_MAGICK_VERSION="6.8.6-9"
 export PCRE_VERSION="8.33"
-export NGINX_VERSION="1.5.6"
+export NGINX_VERSION="1.5.7"
 export NPM_VERSION="1.3.9"
 
 export EC2_PRIVATE_KEY=~/.ec2/pk.pem

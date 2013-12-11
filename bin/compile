@@ -620,6 +620,26 @@ fi
 EOF
 chmod +x bootWorker.sh
 
+cat >>cronJob.sh <<EOF
+#!/usr/bin/env bash
+
+echo "Booting scheduler"
+
+# Symfony2 database detection
+if [ -r /app/app/config/parameters_prod.yml.erb ]; then
+	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
+fi
+
+if [ -f "/app/app/console" ]
+then
+	echo "-----> Detected Symfony2 app"
+	echo "-------> Cache warmup: app/console cache:clear --no-debug --env=prod"
+
+	app/console cache:clear --no-debug --env=prod
+fi
+EOF
+chmod +x cronJob.sh
+
 cat >>bootTest.sh <<EOF
 #!/usr/bin/env bash
 

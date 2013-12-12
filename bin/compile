@@ -549,7 +549,7 @@ done
 
 # Warmup Cache again because of changing pathes between build and live systems
 # Currently hardcoded to prod environment. Has to be adjusted. 
-app/console cache:warmup --no-debug  --no-interaction --env=prod
+php -dmemory_limit=256M app/console cache:warmup --no-debug  --no-interaction --env=prod
 if [ \`app/console --env=prod | grep doctrine:mongodb:generate:proxies | wc -l\` -ge 1 ]; then
 	app/console doctrine:mongodb:generate:proxies --no-interaction --env=prod
 fi
@@ -588,7 +588,7 @@ then
 	echo "-----> Detected Symfony2 app"
 	echo "-------> Cache warmup: app/console cache:clear --no-debug --env=prod"
 
-	app/console cache:clear --no-debug --env=prod
+	php -dmemory_limit=256M app/console cache:clear --no-debug --env=prod
 fi
 
 if [ -r /app/app/config/supervisord.conf ]; then
@@ -635,7 +635,7 @@ then
 	echo "-----> Detected Symfony2 app"
 	echo "-------> Cache warmup: app/console cache:clear --no-debug --env=prod"
 
-	app/console cache:clear --no-debug --env=prod
+	 php -dmemory_limit=256M app/console cache:clear --no-debug --env=prod -dmemory_limit=512M
 fi
 
 echo "-----> Starting issued command"

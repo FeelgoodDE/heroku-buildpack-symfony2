@@ -635,7 +635,7 @@ then
 	echo "-----> Detected Symfony2 app"
 	echo "-------> Cache warmup: app/console cache:clear --no-debug --env=prod"
 
-	 php -dmemory_limit=256M app/console cache:clear --no-debug --env=prod -dmemory_limit=512M
+	 php -dmemory_limit=256M app/console cache:clear --no-debug --env=prod 
 fi
 
 echo "-----> Starting issued command"

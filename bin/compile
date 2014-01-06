@@ -606,7 +606,6 @@ if [ -r /app/app/config/supervisord.conf ]; then
         mkfifo \$logfile
 	done
 
-	ls -la /app/log/supervisor/
 	(tail -f -n 0 /app/log/supervisor/*.log &)
 
 	echo "Starting up supervisor.d ..."

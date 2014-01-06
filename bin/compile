@@ -603,7 +603,7 @@ if [ -r /app/app/config/supervisord.conf ]; then
 	for logfile in \$logfiles
 	do
 		echo "   creating \$logfile ..."
-        mkfifo \$logfile
+        touch \$logfile
 	done
 
 	(tail -F -n 0 /app/log/supervisor/*.log &)

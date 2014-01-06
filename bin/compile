@@ -600,10 +600,10 @@ if [ -r /app/app/config/supervisord.conf ]; then
 
 	#Try to iterate over each line
 	mkdir -p /app/log/supervisor
-	for logfile in $logfiles
+	for logfile in \$logfiles
 	do
-		echo "   creating $logfile ..."
-        mkfifo $logfile
+		echo "   creating \$logfile ..."
+        mkfifo \$logfile
 	done
 
 	ls -la /app/log/supervisor/

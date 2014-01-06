@@ -596,17 +596,19 @@ if [ -r /app/app/config/supervisord.conf ]; then
 	echo "Preparing logfiles ..."
 
 	# Get all logfiles from supervisorD config
-	logfiles="`cat app/config/supervisord.conf | grep '_logfile' | awk 'BEGIN { FS = "=" } ; {print $2}'`"
+	logfiles="`cat app/config/supervisord.conf | grep '_logfile' | awk 'BEGIN { FS = "=" } ; {print \$2}'`"
 
 	#Set the field separator to new line
-	IFS=$'\n'
+	IFS=\$'\n'
 
 	#Try to iterate over each line
 	mkdir -p /app/log/supervisor
-	for logfile in $logfiles
+	for logfile in \$logfiles
 	do
-        mkfifo $logfile
+		echo "   creating \$logfile ..."
+        mkfifo \$logfile
 	done
+	ls -la /app/log/supervisor/
 	(tail -f -n 0 /app/log/supervisor/*.log &)
 
 	echo "Starting up supervisor.d ..."

@@ -606,7 +606,7 @@ if [ -r /app/app/config/supervisord.conf ]; then
         mkfifo \$logfile
 	done
 
-	(tail -f -n 0 /app/log/supervisor/*.log &)
+	(tail -F -n 0 /app/log/supervisor/*.log &)
 
 	echo "Starting up supervisor.d ..."
 	export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/

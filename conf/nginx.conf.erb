@@ -79,12 +79,12 @@ http {
     }
 
     # Status. /status.html uses /status
-    location ~ ^/(status|ping)$ {
-      include /app/vendor/nginx/conf/fastcgi_params;
-      fastcgi_param HTTPS on; # force SSL
-      fastcgi_pass php_fpm;
-      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
+#    location ~ ^/(status|ping)$ {
+#      include /app/vendor/nginx/conf/fastcgi_params;
+#      fastcgi_param HTTPS on; # force SSL
+#      fastcgi_pass php_fpm;
+#      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+#    }
 
     location /server-status {
       stub_status on;

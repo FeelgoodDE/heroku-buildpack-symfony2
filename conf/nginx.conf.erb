@@ -78,6 +78,11 @@ http {
       access_log off;
     }
 
+    # Send correct headers for webfonts
+    location ~* \.(eot|otf|ttf|woff)$ {
+        add_header Access-Control-Allow-Origin *;
+    }
+
     # Status. /status.html uses /status
 #    location ~ ^/(status|ping)$ {
 #      include /app/vendor/nginx/conf/fastcgi_params;

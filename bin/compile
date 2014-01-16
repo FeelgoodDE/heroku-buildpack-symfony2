@@ -291,6 +291,7 @@ tar xzf ${NEWRELIC_FILE} -C ${BUILD_DIR}/local
 
 # PHPUnit
     install "PHPUnit" $PHPUNIT_FILE $PHPUNIT_VERSION $PHPUNIT_URL ${BUILD_DIR}/${PHPUNIT_PATH}
+    chmod +x ${BUILD_DIR}/${PHPUNIT_PATH}/phpunit.phar
 
 # NODE
     install "Node" $NODE_FILE $NODE_VERSION $NODE_URL ${BUILD_DIR}/${NODE_PATH}

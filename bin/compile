@@ -461,7 +461,7 @@ if [ -f "${BUILD_DIR}/phpunit.xml" ]
 then
 	echo "-----> Detected PHPUnit configuration"
     echo "-----> Running PHPUnit tests"
-    ${BUILD_DIR}/${PHPUNIT_PATH}/phpunit.phar -c "${BUILD_DIR}/phpunit.xml"
+    LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/${PHPUNIT_PATH}/phpunit.phar -c "${BUILD_DIR}/phpunit.xml"
 fi
 
 # Config files

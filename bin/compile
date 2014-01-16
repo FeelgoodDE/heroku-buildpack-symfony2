@@ -291,7 +291,6 @@ tar xzf ${NEWRELIC_FILE} -C ${BUILD_DIR}/local
 
 # PHPUnit
     install "PHPUnit" $PHPUNIT_FILE $PHPUNIT_VERSION $PHPUNIT_URL ${BUILD_DIR}/${PHPUNIT_PATH}
-    ln -s ${BUILD_DIR}/${PHPUNIT_PATH}/${PHPUNIT_FILE} ${BUILD_DIR}/${PHPUNIT_PATH}/phpunit
 
 # NODE
     install "Node" $NODE_FILE $NODE_VERSION $NODE_URL ${BUILD_DIR}/${NODE_PATH}
@@ -461,7 +460,7 @@ if [ -f "${BUILD_DIR}/phpunit.xml" ]
 then
 	echo "-----> Detected PHPUnit configuration"
     echo "-----> Running PHPUnit tests"
-    ${BUILD_DIR}/${PHPUNIT_PATH}/phpunit -c "${BUILD_DIR}/phpunit.xml"
+    ${BUILD_DIR}/${PHPUNIT_PATH}/phpunit.phar -c "${BUILD_DIR}/phpunit.xml"
 fi
 
 # Config files

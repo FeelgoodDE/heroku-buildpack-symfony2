@@ -354,7 +354,7 @@ then
 	# Deactivating plugins from php.ini (they won't be found)
 	sed -i 's/extension=\(\w*\.so\)/;extension=\1/g' ${BUILD_DIR}/vendor/php/bin/php.ini
 
-    echo "extension_dir=${BUILD_DIR}/vendor/php/lib/php/extensions/no-debug-non-zts-20100525" >> ${BUILD_DIR}/vendor/php/bin/php.ini
+    echo "extension_dir=${BUILD_DIR}/vendor/php/lib/php/extensions/no-debug-non-zts-20121212" >> ${BUILD_DIR}/vendor/php/bin/php.ini
     cat $LP_DIR/conf/etc.d/*.ini >> ${BUILD_DIR}/vendor/php/bin/php.ini
 
 	if [ ! -r ${BUILD_DIR}/app/config/parameters.yml ]; then

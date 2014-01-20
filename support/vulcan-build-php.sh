@@ -31,6 +31,23 @@ echo "+ Fetching PHP sources..."
 #fetch php, extract
 curl -L http://us.php.net/get/php-$PHP_VERSION.tar.bz2/from/www.php.net/mirror -o - | tar xj
 
+mkdir -p "/app/vendor/php/etc/conf.d"
+
+install_zend_optimizer=":"
+
+if [[ "$php_version" =~ 5.5 ]]; then
+    install_zend_optimizer=$(cat << SH
+    echo "zend_extension=opcache.so" >> /app/vendor/php/etc/conf.d/opcache.ini
+SH
+)
+else
+    install_zend_optimizer=$(cat <<SH
+    /app/vendor/php/bin/pecl install ZendOpcache-beta \
+        && echo "zend_extension=\$(/app/vendor/php/bin/php-config --extension-dir)/opcache.so" >> /app/vendor/php/etc/conf.d/opcache.ini
+SH
+)
+fi
+
 pushd php-$PHP_VERSION
 
 echo "+ Configuring PHP..."
@@ -42,10 +59,13 @@ echo "+ Configuring PHP..."
 --with-config-file-scan-dir=/app/vendor/php/etc.d \
 --disable-debug \
 --disable-rpath \
+--enable-bcmath \
+--enable-sockets \
 --enable-exif \
 --enable-fpm \
 --enable-gd-native-ttf \
 --enable-inline-optimization \
+--enable-shmop \
 --enable-libxml \
 --enable-mbregex \
 --enable-mbstring \
@@ -70,7 +90,9 @@ echo "+ Configuring PHP..."
 --with-pgsql \
 --with-pdo-pgsql \
 --with-png-dir \
---with-zlib
+--with-readline \
+--with-zlib \
+--enable-opcache=no
 
 echo "+ Compiling PHP..."
 # build & install it
@@ -84,16 +106,20 @@ export PATH=/app/vendor/php/bin:$PATH
 # configure pear
 pear config-set php_dir /app/vendor/php
 
-echo "+ Installing APC..."
-# install apc from source
-curl -L http://pecl.php.net/get/APC-${APC_VERSION}.tgz -o - | tar xz
-pushd APC-${APC_VERSION}
-# php apc jokers didn't update the version string in 3.1.10.
-sed -i 's/PHP_APC_VERSION "3.1.9"/PHP_APC_VERSION "3.1.10"/g' php_apc.h
-phpize
-./configure --enable-apc --enable-apc-filehits --with-php-config=/app/vendor/php/bin/php-config
-make && make install
-popd
+if [[ "$php_version" =~ 5.5 ]]; then
+	echo Skipping APC because of PHP 5.5
+else
+	echo "+ Installing APC..."
+	# install apc from source
+	curl -L http://pecl.php.net/get/APC-${APC_VERSION}.tgz -o - | tar xz
+	pushd APC-${APC_VERSION}
+	# php apc jokers didn't update the version string in 3.1.10.
+	sed -i 's/PHP_APC_VERSION "3.1.9"/PHP_APC_VERSION "3.1.10"/g' php_apc.h
+	phpize
+	./configure --enable-apc --enable-apc-filehits --with-php-config=/app/vendor/php/bin/php-config
+	make && make install
+	popd
+fi
 
 echo "+ Installing memcache..."
 # install memcache
@@ -180,6 +206,9 @@ curl -L "http://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newr
 pushd newrelic-php5-${NEWRELIC_VERSION}-linux
 cp -f agent/x64/newrelic-`phpize --version | grep "Zend Module Api No" | tr -d ' ' | cut -f 2 -d ':'`.so `php-config --extension-dir`/newrelic.so
 popd
+
+echo "+ Install Zend optimizer..."
+$install_zend_optimizer
 
 echo "+ Packaging PHP..."
 # package PHP

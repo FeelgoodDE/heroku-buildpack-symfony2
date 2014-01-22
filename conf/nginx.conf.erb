@@ -102,15 +102,14 @@ http {
     location / {
       <%= allow_access_rules %>
 
+#      if ($http_cookie ~* "passedLp" ) {
+#        rewrite ^(.*)$ /app.php$1 break;
+#      }
+#      if ($arg_fb = "1") {
+#        rewrite ^(.*)$ /app.php$1 break;
+#      }
+
       index landingPage.html;
-
-      if ($http_cookie ~* "passedLp" ) {
-        rewrite ^(.*)$ /app.php$1 last;
-      }
-      if ($arg_fp = "1") {
-        rewrite ^(.*)$ /app.php$1 last;
-      }
-
       try_files $uri @rewriteapp;
     }
 

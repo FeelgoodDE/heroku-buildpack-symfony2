@@ -107,7 +107,7 @@ http {
       if ($http_cookie ~* "passedLp" ) {
         rewrite ^(.*)$ /app.php$1 last;
       }
-      if ($arg_fp = "1")
+      if ($arg_fp = "1") {
         rewrite ^(.*)$ /app.php$1 last;
       }
 

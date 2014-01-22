@@ -111,9 +111,10 @@ http {
       }
 
       if ($landing_page = 1) {
-        rewrite ^/$ landingPage.html last;
+        rewrite ^/$ web/landingPage.html last;
       }
 
+      index app.php;
       try_files $uri @rewriteapp;
     }
 

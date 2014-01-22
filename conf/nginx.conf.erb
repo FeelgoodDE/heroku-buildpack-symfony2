@@ -114,10 +114,6 @@ http {
     location / {
       <%= allow_access_rules %>
 
-      if ($arg_fb = "1") {
-        add_header Set-Cookie passedLp;
-      }
-      
       index app.php;
       try_files $uri @rewriteapp;
     }

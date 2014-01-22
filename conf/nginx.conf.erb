@@ -102,6 +102,18 @@ http {
     location / {
       <%= allow_access_rules %>
 
+      set $landing_page 1;
+      if ($http_cookie ~* "passedLp" ) {
+        set $landing_page 0;
+      }
+      if ($arg_fb = "1") {
+        set $landing_page 0;
+      }
+
+      if ($landing_page = 1) {
+        rewrite ^/$ /landingPage.html last;
+      }
+
       index app.php;
       try_files $uri @rewriteapp;
     }

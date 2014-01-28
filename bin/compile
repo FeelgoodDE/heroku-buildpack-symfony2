@@ -501,7 +501,7 @@ if [ -r /app/web/landingPage.html ]; then
 	echo "Found landingPage - patching CDN into assets ..."
 	sed --regexp-extended --in-place -e "s/(https?:\/\/[^\/]*)?\/assets\//https:\/\/\${CDN_BASE_URL_HTTPS_STATIC}\/assets\//" /app/web/landingPage.html
 	timestamp=\$(date +%s)
-	sed --regexp-extended --in-place -e "s/{cachebuster}|c=[0-9]+\"/c=\${timestamp}/" /app/web/landingPage.html
+	sed --regexp-extended --in-place -e "s/\{cachebuster\}|c=[0-9]+/c=\${timestamp}/" /app/web/landingPage.html
 fi
 
 # Override config files if provided in app.

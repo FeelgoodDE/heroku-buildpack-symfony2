@@ -106,9 +106,9 @@ http {
     # strip app.php/ prefix if it is present
     rewrite ^/app\.php/?(.*)$ /$1 permanent;
 
-    set https_redirect 0;
+    set $https_redirect 0;
     if ($http_x_forwarded_proto = "http") {
-      set https_redirect 1;
+      set $https_redirect 1;
     }
 
     set $landing_page 1;

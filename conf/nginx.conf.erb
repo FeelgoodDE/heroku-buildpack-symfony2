@@ -119,10 +119,11 @@ http {
       set $landing_page 0;
     }
 
+    if ($https_redirect) {
+          rewrite ^ https://$host$request_uri? permanent;
+    }
+
     if ($landing_page = 1) {
-      if ($https_redirect) {
-            rewrite ^ https://$host$request_uri? permanent;
-      }
       rewrite ^/$ /landingPage.html last;
     }
 

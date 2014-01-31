@@ -120,7 +120,7 @@ http {
     }
 
     if ($landing_page = 1) {
-      if (https_redirect) {
+      if ($https_redirect) {
             rewrite ^ https://$host$request_uri? permanent;
       }
       rewrite ^/$ /landingPage.html last;

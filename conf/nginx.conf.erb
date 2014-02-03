@@ -115,7 +115,7 @@ http {
     if ($http_cookie ~* "passedLp" ) {
       set $landing_page 0;
     }
-    if ($arg_fb = "1") {
+    if ($arg_lp = "1") {
       set $landing_page 0;
     }
 

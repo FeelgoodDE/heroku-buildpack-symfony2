@@ -36,6 +36,7 @@ SUPERVISORD_FILE="supervisor-${SUPERVISORD_VERSION}.tar.gz"
 PHING_FILE="phing-${PHING_VERSION}.tar.gz"
 PHPUNIT_FILE="phpunit-${PHPUNIT_VERSION}.tar.gz"
 SETUPTOOLS_FILE="setuptools-${SETUPTOOLS_VERSION}.tar.gz"
+PIGZ_FILE="pigz.tar.gz"
 
 MANIFEST_URL="${S3_URL}/${MANIFEST_FILE}"
 NGINX_URL="${S3_URL}/${NGINX_FILE}"
@@ -51,7 +52,7 @@ PHING_URL="${S3_URL}/${PHING_FILE}"
 PHPUNIT_URL="${S3_URL}/${PHPUNIT_FILE}"
 SETUPTOOLS_URL="${S3_URL}/${SETUPTOOLS_FILE}"
 COMPOSER_URL="http://getcomposer.org/composer.phar"
-#
+PIGZ_URL="${S3_URL}/${PIGZ_FILE}"
 
 function indent() {
 	c='s/^/       /'
@@ -123,6 +124,7 @@ NODE_PATH="vendor/node"
 NPM_PATH="$(mktmpdir npm)"
 SUPERVISORD_PATH="vendor/supervisord"
 SETUPTOOLS_PATH="vendor/setuptools"
+PIGZ_PATH="vendor/pigz"
 
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
@@ -143,7 +145,6 @@ function run_npm() {
   fi
 }
 
-
 # include .files when moving things around
 shopt -s dotglob
 
@@ -160,6 +161,10 @@ fi
 echo "-----> Fetching Manifest"
 echo ${MANIFEST_URL} | indent
 download_url ${MANIFEST_URL}
+
+# Pigz
+install "Pigz" $PIGZ_FILE unkown $PIGZ_URL ${BUILD_DIR}/${PIGZ_PATH}
+export TAR_OPTIONS="--use-compress-program=${BUILD_DIR}/${PIGZ_PATH}/pigz"
 
 # Nginx
 echo "-----> Installing Nginx"

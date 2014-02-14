@@ -107,7 +107,7 @@ function install {
         mkdir -p $5
     fi
     
-    tar xzf $2 -C $5
+    tar xf $2 -C $5
 }
 
 BIN_DIR=$(dirname $0)
@@ -130,7 +130,7 @@ export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
 # Support Anvil Build_IDs
 [ ! "$REQUEST_ID" ] && REQUEST_ID=$SLUG_ID
-echo "Build ID: ${REQUEST_ID}";
+# echo "Build ID: ${REQUEST_ID}";
 
 function run_npm() {
   command="$1"
@@ -187,7 +187,7 @@ else
 fi
 
 mkdir -p ${BUILD_DIR}/vendor/nginx
-tar xzf ${NGINX_FILE} -C ${BUILD_DIR}/vendor/nginx
+tar xf ${NGINX_FILE} -C ${BUILD_DIR}/vendor/nginx
 
 # libmcrypt
 echo "-----> Installing libmcrypt"
@@ -207,7 +207,7 @@ else
 	download_url ${MCRYPT_URL}
 fi
 
-tar xzf ${MCRYPT_FILE} -C ${BUILD_DIR}/local
+tar xf ${MCRYPT_FILE} -C ${BUILD_DIR}/local
 
 # libmemcached
 echo "-----> Installing libmemcached"
@@ -227,7 +227,7 @@ else
 	download_url ${MEMCACHED_URL}
 fi
 
-tar xzf ${MEMCACHED_FILE} -C ${BUILD_DIR}/local
+tar xf ${MEMCACHED_FILE} -C ${BUILD_DIR}/local
 
 # libicu
 echo "-----> Installing libicu"
@@ -247,7 +247,7 @@ else
 	download_url ${ICU_URL}
 fi
 
-tar xzf ${ICU_FILE} -C ${BUILD_DIR}/local
+tar xf ${ICU_FILE} -C ${BUILD_DIR}/local
 
 # PHP
 echo "-----> Installing PHP"
@@ -268,7 +268,7 @@ else
 fi
 
 mkdir -p ${BUILD_DIR}/vendor/php
-tar xzf ${PHP_FILE} -C ${BUILD_DIR}/vendor/php
+tar xf ${PHP_FILE} -C ${BUILD_DIR}/vendor/php
 
 # newrelic
 echo "-----> Installing newrelic"
@@ -288,7 +288,7 @@ else
 	download_url ${NEWRELIC_URL}
 fi
 
-tar xzf ${NEWRELIC_FILE} -C ${BUILD_DIR}/local
+tar xf ${NEWRELIC_FILE} -C ${BUILD_DIR}/local
 
 # Phing
     install "Phing" $PHING_FILE $PHING_VERSION $PHING_URL ${BUILD_DIR}/${PHING_PATH}

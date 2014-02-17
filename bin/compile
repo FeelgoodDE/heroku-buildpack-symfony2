@@ -127,6 +127,7 @@ SETUPTOOLS_PATH="vendor/setuptools"
 PIGZ_PATH="vendor/pigz"
 
 export COMPOSER_HOME="${CACHE_DIR}/.composer"
+export XCACHE_TEST=1   # Hide X-Cache warnings on CLI 
 
 # Support Anvil Build_IDs
 [ ! "$REQUEST_ID" ] && REQUEST_ID=$SLUG_ID
@@ -495,6 +496,7 @@ cat >>boot.sh <<EOF
 #!/usr/bin/env bash
 
 echo "Booting nginx"
+export XCACHE_TEST=1   # Hide X-Cache warnings on CLI 
 
 # Symfony2 database detection
 if [ -r /app/app/config/parameters_prod.yml.erb ]; then
@@ -605,6 +607,7 @@ cat >>bootWorker.sh <<EOF
 #!/usr/bin/env bash
 
 echo "Booting worker"
+export XCACHE_TEST=1   # Hide X-Cache warnings on CLI 
 
 # Symfony2 database detection
 if [ -r /app/app/config/parameters_prod.yml.erb ]; then
@@ -651,6 +654,7 @@ cat >>cronJob.sh <<EOF
 #!/usr/bin/env bash
 
 echo "Booting scheduler"
+export XCACHE_TEST=1   # Hide X-Cache warnings on CLI 
 
 # Symfony2 database detection
 if [ -r /app/app/config/parameters_prod.yml.erb ]; then
@@ -676,6 +680,7 @@ cat >>bootTest.sh <<EOF
 #!/usr/bin/env bash
 
 echo "Booting nginx"
+export XCACHE_TEST=1   # Hide X-Cache warnings on CLI 
 
 # Symfony2 database detection
 if [ -r /app/app/config/parameters_prod.yml.erb ]; then

@@ -396,7 +396,7 @@ DELIMETR`
 
 	# do the deed!
 	echo "Running: php composer.phar install" | indent
-	if [ "${SYSTEM}" == "TEST"];
+	if [ "${SYSTEM}" == "TEST"]
 	then
 		export composer_params = ""
 	else 

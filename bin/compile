@@ -396,7 +396,13 @@ DELIMETR`
 
 	# do the deed!
 	echo "Running: php composer.phar install" | indent
-	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php composer.phar install -n --no-dev --optimize-autoloader | indent
+	if [ "${SYSTEM}" == "TEST"];
+	then
+		export composer_params = ""
+	else 
+		export composer_params = "--no-dev"
+	fi
+	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php composer.phar install -n $composer_params --optimize-autoloader | indent
 
 	export GIT_DIR=${GIT_DIR_ORIG}
 fi

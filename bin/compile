@@ -396,11 +396,11 @@ DELIMETR`
 
 	# do the deed!
 	echo "Running: php composer.phar install" | indent
-	if [ "${SYSTEM}" == "TEST"]
+	if [ "${SYSTEM}" == "TEST" ]
 	then
-		export composer_params = ""
+		export composer_params=""
 	else 
-		export composer_params = "--no-dev"
+		export composer_params="--no-dev"
 	fi
 	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php composer.phar install -n $composer_params --optimize-autoloader | indent
 

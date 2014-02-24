@@ -124,7 +124,6 @@ http {
     }
 
     if ($landing_page = 1) {
-      expires 0;
       add_header Pragma no-cache;
       add_header Cache-Control "no-cache, no-store, must-revalidate";
       rewrite ^/$ /landingPage.html last;

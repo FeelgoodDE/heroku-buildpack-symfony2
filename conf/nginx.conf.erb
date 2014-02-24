@@ -138,6 +138,12 @@ http {
       rewrite ^(.*)$ /app.php$1 last;
     }
 
+    location ~ ^/landingPage.html$ {
+      expires 0;
+      add_header Pragma no-cache;
+      add_header Cache-Control "no-cache, no-store, must-revalidate";
+    }
+
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
     location ~ ^/(app|app_dev)\.php(/|$) {
       <%= allow_access_rules %>

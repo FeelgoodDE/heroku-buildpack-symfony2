@@ -62,7 +62,7 @@ http {
     location ~* ^(?!(\/app\.php)?(\/image\/)).*\.(?:ico|css|js|gif|jpeg|jpg|png)$ {
       expires max;
       add_header Pragma public;
-      add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+      add_header Cache-Control "public";
     }
 
     # Deny hidden files (.htaccess, .htpasswd, .DS_Store).

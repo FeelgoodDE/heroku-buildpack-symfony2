@@ -334,6 +334,11 @@ popd > /dev/null
 # Composer Installation
 pushd ${BUILD_DIR} > /dev/null
 
+if [ -f "app/config/build_time" ]
+then
+	date -u +%s > app/config/build_time
+fi
+
 if [ -f "composer.json" ]
 then
 	echo "-----> Installing dependencies using Composer"

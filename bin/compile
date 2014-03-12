@@ -488,8 +488,8 @@ then
 
 	if [ -f "${BUILD_DIR}/app/config/config_translation.yml" ]
 	then
-		echo "-------> Clearing cache: app/console cache:clear ${SF_DEBUG} --env=translation --no-warmup"
-		LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console cache:clear ${SF_DEBUG} --env=translation
+		echo "-------> Clearing cache: app/console cache:clear ${SF_DEBUG} --env=translation"
+		LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php  -dmemory_limit=256M ${BUILD_DIR}/app/console cache:clear ${SF_DEBUG} --no-interaction --env=translation
 	fi	
 fi
 

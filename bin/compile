@@ -484,7 +484,7 @@ then
 	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assetic:dump ${SF_DEBUG} --env=${SF_ENV}
 
 	echo "-------> Clearing cache: app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-warmup"
-	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console cache:clear ${SF_DEBUG} --env=${SF_ENV}
+	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-warmup
 
 	if [ -f "${BUILD_DIR}/app/config/config_translation.yml" ]
 	then

@@ -472,7 +472,7 @@ if [ -f "${BUILD_DIR}/app/console" ]
 then
 	echo "-----> Detected Symfony2 app"
 	echo "-----> Installing assets"
-	# Sets the debug flag depending on Sf2 env (declared at the begeining of the file)
+	# Sets the debug flag depending on Sf2 env (declared at the beginning of the file)
 	export SF_DEBUG="--no-debug"
 	export SF_ENV="prod"
 
@@ -484,7 +484,7 @@ then
 	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console assetic:dump ${SF_DEBUG} --env=${SF_ENV}
 
 	echo "-------> Clearing cache: app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-warmup"
-	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php ${BUILD_DIR}/app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-warmup
+	LD_LIBRARY_PATH="${BUILD_DIR}/local/lib" ${BUILD_DIR}/vendor/php/bin/php -dmemory_limit=256M ${BUILD_DIR}/app/console cache:clear ${SF_DEBUG} --env=${SF_ENV} --no-interaction
 
 	if [ -f "${BUILD_DIR}/app/config/config_translation.yml" ]
 	then
@@ -607,16 +607,6 @@ for var in \`env | cut -f1 -d=\`; do
 	echo "env[\$var] = \\$\${var}" >> /app/vendor/php/etc/php-fpm.conf
 done
 
-# Warmup Cache again because of changing pathes between build and live systems
-# Currently hardcoded to prod environment. Has to be adjusted. 
-php -dmemory_limit=256M app/console cache:warmup --no-debug  --no-interaction --env=prod
-if [ \`app/console --env=prod | grep doctrine:mongodb:generate:proxies | wc -l\` -ge 1 ]; then
-	app/console doctrine:mongodb:generate:proxies --no-interaction --env=prod
-fi
-if [ \`app/console --env=prod | grep doctrine:mongodb:generate:hydrators | wc -l\` -ge 1 ]; then
-	app/console doctrine:mongodb:generate:hydrators --no-interaction --env=prod
-fi
-
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log /app/vendor/php/var/log/php-errors.log /app/local/var/log/newrelic/newrelic-daemon.log /app/local/var/log/newrelic/php_agent.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
 (tail -f -n 0 /app/vendor/nginx/logs/*.log /app/vendor/php/var/log/*.log /app/local/var/log/newrelic/*.log &)
@@ -642,14 +632,6 @@ export XCACHE_TEST=1   # Hide X-Cache warnings on CLI
 # Symfony2 database detection
 if [ -r /app/app/config/parameters_prod.yml.erb ]; then
 	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
-fi
-
-if [ -f "/app/app/console" ]
-then
-	echo "-----> Detected Symfony2 app"
-	echo "-------> Cache warmup: app/console cache:clear --no-debug --env=prod"
-
-	php -dmemory_limit=256M app/console cache:clear --no-debug --env=prod
 fi
 
 if [ -r /app/app/config/supervisord.conf ]; then
@@ -689,14 +671,6 @@ export XCACHE_TEST=1   # Hide X-Cache warnings on CLI
 # Symfony2 database detection
 if [ -r /app/app/config/parameters_prod.yml.erb ]; then
 	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
-fi
-
-if [ -f "/app/app/console" ]
-then
-	echo "-----> Detected Symfony2 app"
-	echo "-------> Cache warmup: app/console cache:clear --no-debug --env=prod"
-
-	 php -dmemory_limit=256M app/console cache:clear --no-debug --env=prod 
 fi
 
 echo "-----> Starting issued command"
@@ -788,6 +762,8 @@ APP_DIR="/app"
 echo "-----> Inplace replacment of $BUILD_DIR to $APP_DIR"
 find $BUILD_DIR/app/cache/translation -type f -exec sed -i "s@$BUILD_DIR@$APP_DIR@g" {} \; | indent
 grep $BUILD_DIR/app/cache/translation -r . && error "Could find some '$BUILD_DIR' :/ "
+find $BUILD_DIR/app/cache/prod -type f -exec sed -i "s@$BUILD_DIR@$APP_DIR@g" {} \; | indent
+grep $BUILD_DIR/app/cache/prod -r . && error "Could find some '$BUILD_DIR' :/ "
 
 # This works only with Heroku Labs: user-env-compile ( https://devcenter.heroku.com/articles/labs-user-env-compile )
 # Better solution would be to user Heroku after deploy HTTP Hook 

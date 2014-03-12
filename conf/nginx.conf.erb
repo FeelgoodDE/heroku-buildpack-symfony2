@@ -8,6 +8,12 @@
     } 
     allow_access_rules += "deny all;\n"
   end
+
+  allowed_frontcontrollers = "app"
+
+  if (ENV['PHRASEAPP_TOKEN'] != nil && !ENV['PHRASEAPP_TOKEN'].empty?)
+    allowed_frontcontrollers.concat("|app_translation")
+  end
 %>
 
 # Heroku dynos have 4 cores.
@@ -59,7 +65,7 @@ http {
     # Some basic cache-control for static files to be sent to the browser
     # If the request path starts with "/image/" this rule will not match because in this case we want the request to hit
     # our application so that the application can handle CDN stuff
-    location ~* ^(?!(\/app\.php)?(\/image\/)).*\.(?:ico|css|js|gif|jpeg|jpg|png)$ {
+    location ~* ^(?!(\/app\.php)?(\/image\/)).*\.(?:ico|css|js|gif|jpeg|jpg|png|woff|ttf|svg|eot)$ {
       expires max;
       add_header Pragma public;
       add_header Cache-Control "public";
@@ -145,7 +151,7 @@ http {
     }
 
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-    location ~ ^/(app|app_dev)\.php(/|$) {
+    location ~ ^/(<%= allowed_frontcontrollers %>)\.php(/|$) {
       <%= allow_access_rules %>
       limit_conn phplimit 5; # limit to 5 concurrent users to PHP per IP.
       fastcgi_pass  php_fpm;

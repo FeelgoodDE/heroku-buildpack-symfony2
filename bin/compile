@@ -464,6 +464,12 @@ then
 	fi
 fi
 
+if [ -n ${BEHAT_RUNNER} ] && [ "${BEHAT_RUNNER}" -eq 1 ]
+then
+	echo "-----> Installing Zombie (bacause I'm Behat runner!)"
+	run_npm "install -g zombie"
+fi
+
 echo "-----> Hacking less & node path"
             ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
             export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"
@@ -620,7 +626,7 @@ fi
 export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
 export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 
-if [ "\${BEHAT_RUNNER}" -eq 1 ]
+if [ -n \${BEHAT_RUNNER} ] && [ \${BEHAT_RUNNER} -eq 1 ]
 then
 	cd /app
 	bin/behat &
@@ -771,11 +777,6 @@ grep $BUILD_DIR/app/cache/translation -r . && error "Could find some '$BUILD_DIR
 find $BUILD_DIR/app/cache/prod -type f -exec sed -i "s@$BUILD_DIR@$APP_DIR@g" {} \; | indent
 grep $BUILD_DIR/app/cache/prod -r . && error "Could find some '$BUILD_DIR' :/ "
 
-if [ "${BEHAT_RUNNER}" -eq 1 ]
-then
-	echo "-----> Installing Zombie (bacause I'm Behat runner!)"
-	npm install -g zombie
-fi
 
 # This works only with Heroku Labs: user-env-compile ( https://devcenter.heroku.com/articles/labs-user-env-compile )
 # Better solution would be to user Heroku after deploy HTTP Hook 

@@ -777,11 +777,13 @@ chmod +x bootTest.sh
 echo "-----> Preparing phing during compile"
 export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 
-APP_DIR="/app"
-echo "-----> Inplace replacment of $BUILD_DIR to $APP_DIR"
-find $BUILD_DIR/app/cache/translation -type f -exec sed -i "s@$BUILD_DIR@$APP_DIR@g" {} \; | indent
-grep $BUILD_DIR/app/cache/translation -r . && error "Could find some '$BUILD_DIR' :/ "
-
+if [ -f "${BUILD_DIR}/app/config/config_translation.yml" ]
+then
+	APP_DIR="/app"
+	echo "-----> Inplace replacment of $BUILD_DIR to $APP_DIR"
+	find $BUILD_DIR/app/cache/translation -type f -exec sed -i "s@$BUILD_DIR@$APP_DIR@g" {} \; | indent
+	grep $BUILD_DIR/app/cache/translation -r . && error "Could find some '$BUILD_DIR' :/ "
+fi	
 
 # This works only with Heroku Labs: user-env-compile ( https://devcenter.heroku.com/articles/labs-user-env-compile )
 # Better solution would be to user Heroku after deploy HTTP Hook 

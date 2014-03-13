@@ -13,13 +13,13 @@ export MEMCACHED_VERSION="2.0.1"
 export NEWRELIC_VERSION="4.6.5.40"
 export XCACHE_VERSION="3.1.0"
 export IMAGICK_VERSION="3.1.0RC2"
-export NODE_VERSION="0.11.11"
+export NODE_VERSION="0.10.26"
 export LIBICU_VERSION="50.1.2"
 export LIBPNG_VERSION="1.6.3"
 export IMAGE_MAGICK_VERSION="6.8.6-9"
 export PCRE_VERSION="8.33"
 export NGINX_VERSION="1.5.10"
-export NPM_VERSION="1.3.25"
+export NPM_VERSION="1.4.4"
 
 export EC2_PRIVATE_KEY=~/.ec2/pk.pem
 export EC2_CERT=~/.ec2/cert.pem

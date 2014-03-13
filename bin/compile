@@ -503,6 +503,18 @@ then
 	fi	
 fi
 
+if [ -n ${PHRASEAPP_TOKEN} ]
+then
+	echo "-----> Getting current locales from PhraseApp ..."
+	pushd ${BUILD_DIR}/src/Feelgood/Bundle/LanguageBundle/Resources/translations/
+		phrase pull --target=./ --secret=${PHRASEAPP_TOKEN} --include-empty-translations --format=gettext
+		if [ -f "de/phrase.po" ]
+		then
+			mv de/phrase.po messages.de.po
+		fi
+	popd  > /dev/null
+fi
+
 if [ -f "${BUILD_DIR}/phpunit.xml" ]
 then
 	echo "-----> Detected PHPUnit configuration"

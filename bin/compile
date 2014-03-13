@@ -320,11 +320,11 @@ tar xf ${NEWRELIC_FILE} -C ${BUILD_DIR}/local
 # NPM
     install "NPM" $NPM_FILE $NPM_VERSION $NPM_URL ${NPM_PATH}
 
-# install compass
-echo "-----> Installing Compass"
+# install Sass
+echo "-----> Installing Sass"
 export GEM_HOME=$BUILD_DIR/.gem/ruby/1.9.1
 PATH="$GEM_HOME/bin:$PATH"
-HOME=$BUILD_DIR gem install compass --user-install --no-rdoc --no-ri
+HOME=$BUILD_DIR gem install sass --user-install --no-rdoc --no-ri
 
 # Python SetupTools
     install "SetupTools" $SETUPTOOLS_FILE $SETUPTOOLS_VERSION $SETUPTOOLS_URL ${BUILD_DIR}/${SETUPTOOLS_PATH}

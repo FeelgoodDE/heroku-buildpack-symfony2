@@ -635,7 +635,8 @@ export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 
 if [ -n \${BEHAT_RUNNER} ] && [ \${BEHAT_RUNNER} -eq 1 ]
 then
-	cd /app
+	echo "Starting Behat ..."
+	cd /app/app
 	bin/behat &
 fi
 

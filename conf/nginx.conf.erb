@@ -65,7 +65,7 @@ http {
     # Some basic cache-control for static files to be sent to the browser
     # If the request path starts with "/image/" this rule will not match because in this case we want the request to hit
     # our application so that the application can handle CDN stuff
-    location ~* ^(?!(\/app\.php)?(\/image\/)).*\.(?:ico|css|js|gif|jpeg|jpg|png|woff|ttf|svg|eot)$ {
+    location ~* ^(?!(\/app\.php)?(\/image\/)).*\.(?:ico|css|js|gif|jpeg|jpg|png)$ {
       expires max;
       add_header Pragma public;
       add_header Cache-Control "public";
@@ -93,6 +93,9 @@ http {
 
     # Send correct headers for webfonts
     location ~* \.(eot|otf|ttf|woff)$ {
+        expires max;
+        add_header Pragma public;
+        add_header Cache-Control "public";
         add_header Access-Control-Allow-Origin *;
     }
 

@@ -507,11 +507,11 @@ if [ -n ${PHRASEAPP_TOKEN} ]
 then
 	echo "-----> Getting current locales from PhraseApp ..."
 	pushd ${BUILD_DIR}/src/Feelgood/Bundle/LanguageBundle/Resources/translations/
-#		phrase pull --target=./ --secret=${PHRASEAPP_TOKEN} --include-empty-translations --format=gettext
-#		if [ -f "de/phrase.po" ]
-#		then
-#			mv de/phrase.po messages.de.po
-#		fi
+		PHRASE_API_SKIP_SSL_VALIDATION=1 phrase pull --target=./ --secret=${PHRASEAPP_TOKEN} --include-empty-translations --format=gettext
+		if [ -f "de/phrase.po" ]
+		then
+			mv de/phrase.po messages.de.po
+		fi
 	popd  > /dev/null
 fi
 

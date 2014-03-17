@@ -709,7 +709,7 @@ if [ -r /app/app/config/parameters_prod.yml.erb ]; then
 	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
 fi
 
-if [ "\$1" -eq "app/console" ]
+if [ "\$1" = "app/console" ]
 then
 	echo "-----> Detected app/console command. Increasing PHP memory limit ..."
 	export command="/app/vendor/php/bin/php -dmemory_limit=384M \$1"

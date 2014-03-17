@@ -709,9 +709,17 @@ if [ -r /app/app/config/parameters_prod.yml.erb ]; then
 	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
 fi
 
+if [ \$1 -eq "app/console" ]
+then
+	echo "-----> Detected app/console command. Increasing PHP memory limit ..."
+	export command="/app/vendor/php/bin/php -dmemory_limit=384M \$1"
+else
+	export command=\$1
+fi
+
 echo "-----> Starting issued command"
-echo "-------> \$1 \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9"
-\$1 \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9
+echo "-------> \$command \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9"
+\$command \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9
 echo "-----> Finished processing cronJob"
 EOF
 chmod +x cronJob.sh

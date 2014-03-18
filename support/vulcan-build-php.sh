@@ -65,11 +65,9 @@ echo "+ Configuring PHP..."
 --enable-fpm \
 --enable-gd-native-ttf \
 --enable-inline-optimization \
---enable-shmop \
 --enable-libxml \
 --enable-mbregex \
 --enable-mbstring \
---enable-pcntl \
 --enable-soap=shared \
 --enable-zip \
 --enable-intl \
@@ -82,20 +80,25 @@ echo "+ Configuring PHP..."
 --with-icu-dir=/app/local \
 --with-iconv \
 --with-mhash \
---with-mysql \
---with-mysqli \
---with-openssl \
 --with-pcre-regex \
 --with-pdo-mysql \
---with-pgsql \
---with-pdo-pgsql \
 --with-png-dir \
 --with-readline \
 --with-zlib \
 --enable-opcache=no
+#--with-pgsql \
+#--with-pdo-pgsql \
+#--enable-shmop \
+#--enable-pcntl \
+#--with-mysql \
+#--with-mysqli \
+#--with-openssl \
+
 
 echo "+ Compiling PHP..."
-# build & install it
+make 
+
+echo "+ Installing PHP..."
 make install
 
 popd

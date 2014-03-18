@@ -3,7 +3,7 @@
 export S3_BUCKET="feelgood-heroku-buildpack"
 
 export LIBMCRYPT_VERSION="2.5.8"
-export PHP_VERSION="5.5.9"
+export PHP_VERSION="5.5.10"
 export APC_VERSION="3.1.13"
 export PHPREDIS_VERSION="2.2.4"
 export LIBMEMCACHED_VERSION="1.0.7"

@@ -670,6 +670,11 @@ if [ -r /app/app/config/parameters_prod.yml.erb ]; then
 	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
 fi
 
+if [ -r /app/vendor/php/etc.d/08_xcache.ini ]; then
+	echo "Detected X-Cache config. Disabling for worker ..."
+	rm /app/vendor/php/etc.d/08_xcache.ini
+fi
+
 if [ -r /app/app/config/supervisord.conf ]; then
 	echo "Found SupervisorD config"
 	echo "Preparing logfiles ..."

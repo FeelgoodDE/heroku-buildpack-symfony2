@@ -632,9 +632,6 @@ done
 # Warmup Cache again because of changing pathes between build and live systems
 # Currently hardcoded to prod environment. Has to be adjusted. 
 php -dmemory_limit=256M app/console cache:warmup --no-debug  --no-interaction --env=prod
-if [ \`app/console --env=prod | grep doctrine:mongodb:generate:proxies | wc -l\` -ge 1 ]; then
-	app/console doctrine:mongodb:generate:proxies --no-interaction --env=prod
-fi
 
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log /app/vendor/php/var/log/php-errors.log /app/local/var/log/newrelic/newrelic-daemon.log /app/local/var/log/newrelic/php_agent.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
@@ -675,6 +672,10 @@ if [ -r /app/vendor/php/etc.d/08_xcache.ini ]; then
 	rm /app/vendor/php/etc.d/08_xcache.ini
 fi
 
+# Warmup Cache again because of changing pathes between build and live systems
+# Currently hardcoded to prod environment. Has to be adjusted. 
+php -dmemory_limit=256M app/console cache:warmup --no-debug  --no-interaction --env=prod
+
 if [ -r /app/app/config/supervisord.conf ]; then
 	echo "Found SupervisorD config"
 	echo "Preparing logfiles ..."
@@ -713,6 +714,10 @@ export XCACHE_TEST=1   # Hide X-Cache warnings on CLI
 if [ -r /app/app/config/parameters_prod.yml.erb ]; then
 	erb /app/app/config/parameters_prod.yml.erb > /app/app/config/parameters.yml
 fi
+
+# Warmup Cache again because of changing pathes between build and live systems
+# Currently hardcoded to prod environment. Has to be adjusted. 
+php -dmemory_limit=256M app/console cache:warmup --no-debug  --no-interaction --env=prod
 
 if [ "\$1" = "app/console" ]
 then

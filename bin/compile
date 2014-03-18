@@ -468,7 +468,7 @@ then
 	fi
 fi
 
-if [ -n ${BEHAT_RUNNER} ] && [ "${BEHAT_RUNNER}" -eq 1 ]
+if [ -n ${BEHAT_RUNNER} ] && [ "${BEHAT_RUNNER}" == "1" ]
 then
 	echo "-----> Installing Zombie (bacause I'm Behat runner!)"
 	run_npm "install -g zombie"

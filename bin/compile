@@ -129,6 +129,12 @@ BUNDLE_DIR="${CACHE_DIR}/bundles"
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 export_env_dir "$3"
 
+# Debug and clear Cache-Dir
+du -h ${CACHE_DIR}
+ls -la ${CACHE_DIR}
+rm -rf ${CACHE_DIR}
+mkdir CACHE_DIR
+
 #Paths
 PHP_PATH="vendor/php"
 PHING_PATH="vendor/phing"

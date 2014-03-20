@@ -80,6 +80,7 @@ echo "+ Configuring PHP..."
 --with-icu-dir=/app/local \
 --with-iconv \
 --with-mhash \
+--with-openssl \
 --with-pcre-regex \
 --with-pdo-mysql \
 --with-png-dir \
@@ -92,7 +93,6 @@ echo "+ Configuring PHP..."
 #--enable-pcntl \
 #--with-mysql \
 #--with-mysqli \
-#--with-openssl \
 
 
 echo "+ Compiling PHP..."

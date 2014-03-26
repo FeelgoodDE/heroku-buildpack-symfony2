@@ -481,7 +481,17 @@ then
 	run_npm "install -g zombie"
 
 	echo "-----> Installing phantomJS"
-    install "phantomJS" phantomjs-1.9.7-linux-x86_64.tar.bz2 $PHANTOMJS_VERSION https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 ${BUILD_DIR}/phantomjs
+	PHANTOMJS_FILENAME=phantomjs-1.9.7-linux-x86_64.tar.bz2
+	PHANTOMJS_ARCHIVE_NAME=phantomjs-1.9.7-linux-x86_64
+	BUILDPACK_PHANTOMJS_PACKAGE=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
+	if ! [ -e $CACHE_DIR/$PHANTOMJS_FILENAME ]; then
+	  curl $BUILDPACK_PHANTOMJS_PACKAGE -L -s -o $CACHE_DIR/$PHANTOMJS_FILENAME
+	fi
+
+	mkdir -p $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME
+	mkdir -p $BUILD_DIR/vendor
+	tar jxf $CACHE_DIR/$PHANTOMJS_FILENAME -C $CACHE_DIR
+	mv $CACHE_DIR/$PHANTOMJS_FILENAME $BUILD_DIR/vendor/phantomjs
 fi
 
 echo "-----> Hacking less & node path"

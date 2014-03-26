@@ -17,6 +17,7 @@ SUPERVISORD_VERSION=3.0
 SETUPTOOLS_VERSION=1.1
 PHING_VERSION=2.6.1
 PHPUNIT_VERSION=3.7.29
+PHANTOMJS_VERSION=1.9.7
 S3_BUCKET=feelgood-heroku-buildpack
 # END CONFIG
 
@@ -478,6 +479,9 @@ if [ -n ${BEHAT_RUNNER} ] && [ "${BEHAT_RUNNER}" == "1" ]
 then
 	echo "-----> Installing Zombie (bacause I'm Behat runner!)"
 	run_npm "install -g zombie"
+
+	echo "-----> Installing phantomJS"
+    install "phantomJS" phantomjs-1.9.7-linux-x86_64.tar.bz2 $PHANTOMJS_VERSION https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 ${BUILD_DIR}/phantomjs
 fi
 
 echo "-----> Hacking less & node path"

@@ -491,7 +491,7 @@ then
 	mkdir -p $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME
 	mkdir -p $BUILD_DIR/vendor
 	TAR_OPTIONS="" tar jxf $CACHE_DIR/$PHANTOMJS_FILENAME -C $CACHE_DIR
-	mv $CACHE_DIR/$PHANTOMJS_FILENAME $BUILD_DIR/vendor/phantomjs
+	mv $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME $BUILD_DIR/vendor/phantomjs
 fi
 
 echo "-----> Hacking less & node path"

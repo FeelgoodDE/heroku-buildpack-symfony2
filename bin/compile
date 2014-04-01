@@ -666,11 +666,11 @@ fi
 export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
 export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 
-if [ -n \${BEHAT_RUNNER} ] && [ \${BEHAT_RUNNER} -eq 1 ]
+if [ -z "\${BEHAT_RUNNER}" ] && [ \${BEHAT_RUNNER} -eq 1 ]
 then
 	echo "Starting Behat ..."
 	cd /app/app
-	bin/behat &
+	bin/behat --name "Questionnaire" &
 fi
 
 EOF

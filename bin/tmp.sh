@@ -106,10 +106,10 @@ fi
 
 if [[ "\${BEHAT_RUNNER}" == "1" ]]; then
     echo "This is a behat runner so we are starting nginx as a daemon..."
-    nohup /app/vendor/nginx/sbin/nginx &
+    # nohup /app/vendor/nginx/sbin/nginx &
 else
     echo "This is not a behat runner so we are starting nginx the regular way..."
-    /app/vendor/nginx/sbin/nginx
+    # /app/vendor/nginx/sbin/nginx
 fi
 
 export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/

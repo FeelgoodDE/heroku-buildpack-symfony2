@@ -577,7 +577,7 @@ fi
 
 # Landing page detection
 if [ -r /app/app/config/build_time ]; then
-	timestamp=`cat /app/app/config/build_time`
+	timestamp=\`cat /app/app/config/build_time\`
 else
 	timestamp=\$(date +%s)
 fi

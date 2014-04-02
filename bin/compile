@@ -670,7 +670,7 @@ if [ "\${NEW_RELIC_LICENSE_KEY}" -a ! -f /app/local/NEWRELIC_VERSION ]; then
 	/app/local/bin/newrelic-daemon -c /app/local/etc/newrelic.cfg -d error
 fi
 /app/vendor/php/sbin/php-fpm
-/app/vendor/nginx/sbin/nginx &
+/app/vendor/nginx/sbin/nginx
 
 export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
 export PHING_HOME="$BUILD_DIR/$PHING_PATH"

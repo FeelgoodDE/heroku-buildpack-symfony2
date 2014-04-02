@@ -681,7 +681,7 @@ echo "\${BEHAT_RUNNER}"
 if [ -z "\${BEHAT_RUNNER}" ] && [ \${BEHAT_RUNNER} == "1" ]
 then
 	echo "Starting Behat ..."
-	cd /app/app
+	cd /app
 	bin/behat --name "Questionnaire" &
 fi
 

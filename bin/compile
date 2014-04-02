@@ -671,8 +671,7 @@ if [ "\${NEW_RELIC_LICENSE_KEY}" -a ! -f /app/local/NEWRELIC_VERSION ]; then
 fi
 /app/vendor/php/sbin/php-fpm
 
-if [ "\${BEHAT_RUNNER}" == "1" ]
-then
+if [[ "\${BEHAT_RUNNER}" == "1" ]]; then
     echo "This is a behat runner so we are starting nginx as a daemon..."
     nohup /app/vendor/nginx/sbin/nginx &
 else

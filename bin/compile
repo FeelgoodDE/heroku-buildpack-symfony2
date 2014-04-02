@@ -674,7 +674,7 @@ fi
 if [ -z "\${BEHAT_RUNNER}" ] && [ \${BEHAT_RUNNER} == "1" ]
 then
     echo "This is a behat runner so we start nginx as a daemon..."
-    start-stop-daemon --start --quiet --exec /app/vendor/nginx/sbin/nginx
+    nohup /app/vendor/nginx/sbin/nginx &
 else
     /app/vendor/nginx/sbin/nginx
 fi

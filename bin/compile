@@ -678,7 +678,7 @@ export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 echo "Behat runner variable is: "
 echo "\${BEHAT_RUNNER}"
 
-if [ -z "\${BEHAT_RUNNER}" ] && [ \${BEHAT_RUNNER} -eq 1 ]
+if [ -z "\${BEHAT_RUNNER}" ] && [ \${BEHAT_RUNNER} == "1" ]
 then
 	echo "Starting Behat ..."
 	cd /app/app

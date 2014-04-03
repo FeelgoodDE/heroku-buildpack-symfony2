@@ -475,11 +475,7 @@ then
 	fi
 fi
 
-if [ -n ${BEHAT_RUNNER} ] && [ "${BEHAT_RUNNER}" == "1" ]
-then
-	echo "-----> Installing Zombie (bacause I'm Behat runner!)"
-	run_npm "install -g zombie"
-
+if [ ! -z "\${BEHAT_RUNNER}" ] && [ "\${BEHAT_RUNNER}" = "1" ]; then
 	echo "-----> Installing phantomJS"
 	PHANTOMJS_FILENAME=phantomjs-1.9.7-linux-x86_64.tar.bz2
 	PHANTOMJS_ARCHIVE_NAME=phantomjs-1.9.7-linux-x86_64

@@ -588,7 +588,7 @@ if [ -r /app/web/landingPage.html ]; then
 fi
 if [ -r /app/web/landingPage.html ]; then
 	echo "Found individualized landingPages - patching CDN into assets ..."
-	sed --regexp-extended --in-place -e "s/(https?:\/\/[^\/]*)?\/assets\//https:\/\/\${CDN_BASE_URL_HTTPS_STATIC}\/assets\//" /app/web/lp*.html
+	sed --regexp-extended --in-place -e "s/(https?:\/\/[^\/]*)?\/assets\//https:\/\/\${CDN_BASE_URL_HTTPS_STATIC}\/assets\//" /app/web/lp/*.html
 	sed --regexp-extended --in-place -e "s/\{cachebuster\}|c=[0-9]+/c=\${timestamp}/" /app/web/lp/*.html
 fi
 

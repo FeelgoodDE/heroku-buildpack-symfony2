@@ -681,7 +681,7 @@ export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 if [ ! -z "\${BEHAT_RUNNER}" ] && [ "\${BEHAT_RUNNER}" = "1" ]
 then
     echo "Starting PhantomJS..."
-    nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 &
+    nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 > /app/log/phantomjs/phantomjs.log &
 	echo "Starting Behat ..."
 	cd /app
 	bin/behat --name "Questionnaire" &

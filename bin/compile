@@ -680,7 +680,9 @@ export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 
 if [ ! -z "\${BEHAT_RUNNER}" ] && [ "\${BEHAT_RUNNER}" = "1" ]
 then
+    echo "Creating directory for phantomjs logs..."
     mkdir /app/vendor/phantomjs/logs
+    echo "Creating phantomjs log file..."
     touch /app/vendor/phantomjs/logs/phantomjs.log
     echo "Starting PhantomJS..."
     nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 > /app/vendor/phantomjs/logs/phantomjs.log &

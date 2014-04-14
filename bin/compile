@@ -686,14 +686,14 @@ then
     touch /app/vendor/phantomjs/logs/phantomjs.log
     echo "Starting PhantomJS..."
     (tail -f -n 0 /app/vendor/phantomjs/logs/phantomjs.log &)
-    nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 > /app/vendor/phantomjs/logs/phantomjs.log &
+    nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 > /app/vendor/phantomjs/logs/phantomjs.log 2>&1 &
     echo "Creating directory for behat logs..."
     mkdir -p /app/vendor/behat/logs
     echo "Creating behat log file..."
     touch /app/vendor/behat/logs/behat.log
 	(tail -f -n 0 /app/vendor/behat/logs/behat.log &)
 	echo "Starting Behat ..."
-    nohup /app/bin/behat --name "Questionnaire" > /app/vendor/behat/logs/behat.log &
+    nohup /app/bin/behat --name "Questionnaire" > /app/vendor/behat/logs/behat.log 2>&1 &
 fi
 
 EOF

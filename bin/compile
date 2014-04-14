@@ -678,17 +678,17 @@ fi
 export PYTHONPATH=\${PYTHONPATH}:/app/vendor/setuptools/lib/python2.7/site-packages/
 export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 
-if [ ! -z "\${BEHAT_RUNNER}" ] && [ "\${BEHAT_RUNNER}" = "1" ]
-then
+# if [ ! -z "\${BEHAT_RUNNER}" ] && [ "\${BEHAT_RUNNER}" = "1" ]
+# then
     # mkdir /app/vendor/phantomjs/logs
     # touch /app/vendor/phantomjs/logs/phantomjs.log
-    echo "Starting PhantomJS..."
+    # echo "Starting PhantomJS..."
     # nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 > /app/vendor/phantomjs/logs/phantomjs.log &
     # (tail -f -n 0 /app/vendor/phantomjs/logs/phantomjs.log &)
-	echo "Starting Behat ..."
-	cd /app
+	# echo "Starting Behat ..."
+	# cd /app
 	# bin/behat --name "Questionnaire" &
-fi
+# fi
 
 EOF
 chmod +x boot.sh

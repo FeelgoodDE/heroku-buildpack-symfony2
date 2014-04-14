@@ -687,7 +687,7 @@ then
     (tail -f -n 0 /app/vendor/phantomjs/logs/phantomjs.log &)
 	echo "Starting Behat ..."
 	cd /app
-	bin/behat --name "Questionnaire" &
+	# bin/behat --name "Questionnaire" &
 fi
 
 EOF

@@ -688,7 +688,7 @@ then
     (tail -f -n 0 /app/vendor/phantomjs/logs/phantomjs.log &)
     nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 > /app/vendor/phantomjs/logs/phantomjs.log &
 	echo "Starting Behat ..."
-	/app/bin/behat --name "Questionnaire" &
+	/app/bin/behat --name "Questionnaire"
 fi
 
 EOF

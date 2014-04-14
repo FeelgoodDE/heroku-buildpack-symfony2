@@ -696,8 +696,6 @@ then
     nohup /app/bin/behat --name "Questionnaire" > /app/vendor/behat/logs/behat.log 2>&1 &
 fi
 
-exit 1
-
 EOF
 chmod +x boot.sh
 

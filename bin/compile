@@ -694,8 +694,7 @@ then
     touch /app/vendor/behat/logs/behat.log
 	(tail -f -n 0 /app/vendor/behat/logs/behat.log &)
 	echo "Starting Behat ..."
-    nohup /app/bin/behat --name "Questionnaire" > /app/vendor/behat/logs/behat.log 2>&1 &
-    sleep 5
+    /app/bin/behat --name "Questionnaire"
 fi
 
 echo "End of boot script"

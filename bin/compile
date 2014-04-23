@@ -475,7 +475,7 @@ then
 	fi
 fi
 
-if [ ! -z "${BEHAT_RUNNER}" ] && [ "${BEHAT_RUNNER}" = "1" ]; then
+if [ ! -z "${PHANTOM_JS_ENABLED}" ] && [ "${PHANTOM_JS_ENABLED}" = "1" ]; then
 	echo "-----> Installing phantomJS"
 	PHANTOMJS_FILENAME=phantomjs-1.9.7-linux-x86_64.tar.bz2
 	PHANTOMJS_ARCHIVE_NAME=phantomjs-1.9.7-linux-x86_64
@@ -680,12 +680,28 @@ export PHING_HOME="$BUILD_DIR/$PHING_PATH"
 
 if [ ! -z "\${BEHAT_RUNNER}" ] && [ "\${BEHAT_RUNNER}" = "1" ]
 then
+    echo "Creating directory for phantomjs logs..."
+    mkdir /app/vendor/phantomjs/logs
+    echo "Creating phantomjs log file..."
+    touch /app/vendor/phantomjs/logs/phantomjs.log
     echo "Starting PhantomJS..."
-    nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 &
+    (tail -f -n 0 /app/vendor/phantomjs/logs/phantomjs.log &)
+    nohup /app/vendor/phantomjs/bin/phantomjs --webdriver=8643 > /app/vendor/phantomjs/logs/phantomjs.log 2>&1 &
+    sleep 5
+    echo "Creating directory for behat logs..."
+    mkdir -p /app/vendor/behat/logs
+    echo "Creating behat log file..."
+    touch /app/vendor/behat/logs/behat.log
+	(tail -f -n 0 /app/vendor/behat/logs/behat.log &)
 	echo "Starting Behat ..."
-	cd /app
-	bin/behat --name "Questionnaire" &
+    /app/bin/behat --name "Questionnaire"
+
+    echo "Restarting nginx..."
+    /app/vendor/nginx/sbin/nginx -s stop
+    /app/vendor/nginx/sbin/nginx
 fi
+
+echo "End of boot script"
 
 EOF
 chmod +x boot.sh

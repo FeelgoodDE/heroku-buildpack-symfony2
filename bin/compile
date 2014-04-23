@@ -455,8 +455,12 @@ fi
 if [ -f "${BUILD_DIR}/app/assets/package.json" ]
 then
 	echo "-----> Installing assets build-system"
-	pushd ${BUILD_DIR}/app/assets/ 
-            run_npm "install --production --quiet" # "install production"
+	pushd ${BUILD_DIR}/app/assets/
+            if [ ! -z "${NPM_DEV_DEPENDENCIES_ENABLED}" ] && [ "${NPM_DEV_DEPENDENCIES_ENABLED}" = "1" ]; then
+                run_npm "install --dev --quiet" # "install development"
+            else
+                run_npm "install --production --quiet" # "install production"
+            fi
 	popd  > /dev/null
 
 	if [ -f "${BUILD_DIR}/app/assets/bower.json" ]

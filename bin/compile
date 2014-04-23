@@ -437,6 +437,21 @@ DELIMETR`
 fi
 popd > /dev/null
 
+if [ ! -z "${PHANTOM_JS_ENABLED}" ] && [ "${PHANTOM_JS_ENABLED}" = "1" ]; then
+	echo "-----> Installing phantomJS"
+	PHANTOMJS_FILENAME=phantomjs-1.9.7-linux-x86_64.tar.bz2
+	PHANTOMJS_ARCHIVE_NAME=phantomjs-1.9.7-linux-x86_64
+	BUILDPACK_PHANTOMJS_PACKAGE=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
+	if ! [ -e $CACHE_DIR/$PHANTOMJS_FILENAME ]; then
+	  curl $BUILDPACK_PHANTOMJS_PACKAGE -L -s -o $CACHE_DIR/$PHANTOMJS_FILENAME
+	fi
+
+	mkdir -p $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME
+	mkdir -p $BUILD_DIR/vendor
+	TAR_OPTIONS="" tar jxf $CACHE_DIR/$PHANTOMJS_FILENAME -C $CACHE_DIR
+	mv $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME $BUILD_DIR/vendor/phantomjs
+fi
+
 if [ -f "${BUILD_DIR}/app/assets/package.json" ]
 then
 	echo "-----> Installing assets build-system"
@@ -462,6 +477,9 @@ then
 		export LC_CTYPE="en_US.UTF-8" # fix locale for ruby (SASS)
 		pushd ${BUILD_DIR}/app/assets/
             node_modules/grunt-cli/bin/grunt build --env=prod
+            if [ ! -z "${PHANTOM_JS_ENABLED}" ] && [ "${PHANTOM_JS_ENABLED}" = "1" ]; then
+                node_modules/grunt-cli/bin/grunt test --env=prod
+            fi
 	        rm -r `ls | egrep -v 'dest|images|fonts|components'`
 		popd  > /dev/null
 
@@ -473,31 +491,6 @@ then
 	        mv app/assets/components web/assets/components
 		popd  > /dev/null
 	fi
-fi
-
-if [ ! -z "${PHANTOM_JS_ENABLED}" ] && [ "${PHANTOM_JS_ENABLED}" = "1" ]; then
-	echo "-----> Installing phantomJS"
-	PHANTOMJS_FILENAME=phantomjs-1.9.7-linux-x86_64.tar.bz2
-	PHANTOMJS_ARCHIVE_NAME=phantomjs-1.9.7-linux-x86_64
-	BUILDPACK_PHANTOMJS_PACKAGE=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
-	if ! [ -e $CACHE_DIR/$PHANTOMJS_FILENAME ]; then
-	  curl $BUILDPACK_PHANTOMJS_PACKAGE -L -s -o $CACHE_DIR/$PHANTOMJS_FILENAME
-	fi
-
-	mkdir -p $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME
-	mkdir -p $BUILD_DIR/vendor
-	TAR_OPTIONS="" tar jxf $CACHE_DIR/$PHANTOMJS_FILENAME -C $CACHE_DIR
-	mv $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME $BUILD_DIR/vendor/phantomjs
-fi
-
-if [ -f "${BUILD_DIR}/app/assets/Gruntfile.js" ]; then
-    echo "-----> Gruntfile found..."
-    if [ ! -z "${PHANTOM_JS_ENABLED}" ] && [ "${PHANTOM_JS_ENABLED}" = "1" ]; then
-        echo "-----> Executing Karma tests..."
-        pushd ${BUILD_DIR}/app/assets/
-        node_modules/grunt-cli/bin/grunt test --env=prod
-        popd  > /dev/null
-    fi
 fi
 
 echo "-----> Hacking less & node path"

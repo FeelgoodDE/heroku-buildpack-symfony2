@@ -490,6 +490,13 @@ if [ ! -z "${PHANTOM_JS_ENABLED}" ] && [ "${PHANTOM_JS_ENABLED}" = "1" ]; then
 	mv $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME $BUILD_DIR/vendor/phantomjs
 fi
 
+if [ -f "${BUILD_DIR}/app/assets/Gruntfile.js" ] && [ ! -z "${PHANTOM_JS_ENABLED}" ] && [ "${PHANTOM_JS_ENABLED}" = "1" ]; then
+    echo "-----> Executing Karma tests..."
+    pushd ${BUILD_DIR}/app/assets/
+    node_modules/grunt-cli/bin/grunt test --env=prod
+    popd  > /dev/null
+fi
+
 echo "-----> Hacking less & node path"
             ln -s ${BUILD_DIR}/${NODE_PATH}/ /app/${NODE_PATH}
             export INCLUDE_PATH="${BUILD_DIR}/${NODE_PATH}/include"

@@ -450,6 +450,7 @@ if [ ! -z "${PHANTOM_JS_ENABLED}" ] && [ "${PHANTOM_JS_ENABLED}" = "1" ]; then
 	mkdir -p $BUILD_DIR/vendor
 	TAR_OPTIONS="" tar jxf $CACHE_DIR/$PHANTOMJS_FILENAME -C $CACHE_DIR
 	mv $CACHE_DIR/$PHANTOMJS_ARCHIVE_NAME $BUILD_DIR/vendor/phantomjs
+	PHANTOMJS_BIN=$BUILD_DIR/vendor/phantomjs/bin/phantomjs
 fi
 
 if [ -f "${BUILD_DIR}/app/assets/package.json" ]
@@ -457,7 +458,7 @@ then
 	echo "-----> Installing assets build-system"
 	pushd ${BUILD_DIR}/app/assets/
             if [ ! -z "${NPM_DEV_DEPENDENCIES_ENABLED}" ] && [ "${NPM_DEV_DEPENDENCIES_ENABLED}" = "1" ]; then
-                run_npm "install --dev --quiet" # "install development"
+                run_npm "install --quiet" # "install development"
             else
                 run_npm "install --production --quiet" # "install production"
             fi

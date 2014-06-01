@@ -3,7 +3,7 @@
 export S3_BUCKET="feelgood-heroku-buildpack"
 
 export LIBMCRYPT_VERSION="2.5.8"
-export PHP_VERSION="5.5.11"
+export PHP_VERSION="5.5.12"
 export APC_VERSION="3.1.13"
 export PHPREDIS_VERSION="2.2.5"
 export LIBMEMCACHED_VERSION="1.0.7"
@@ -18,7 +18,7 @@ export LIBICU_VERSION="50.1.2"
 export LIBPNG_VERSION="1.6.3"
 export IMAGE_MAGICK_VERSION="6.8.6-9"
 export PCRE_VERSION="8.33"
-export NGINX_VERSION="1.5.13"
+export NGINX_VERSION="1.7.0"
 export NPM_VERSION="1.4.4"
 
 export EC2_PRIVATE_KEY=~/.ec2/pk.pem

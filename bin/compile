@@ -702,7 +702,7 @@ then
     touch /app/vendor/behat/logs/behat.log
 	(tail -f -n 0 /app/vendor/behat/logs/behat.log &)
 	echo "Starting Behat ..."
-    /app/bin/behat --name "Questionnaire"
+    /app/bin/behat
 
     echo "Restarting nginx..."
     /app/vendor/nginx/sbin/nginx -s stop

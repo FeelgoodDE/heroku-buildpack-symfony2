@@ -29,7 +29,7 @@ curl -L ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$PCRE_VERSION
 popd
 
 # build and package nginx for heroku
-vulcan build -v -s nginx-$NGINX_VERSION -o $tempdir/nginx-$NGINX_VERSION-heroku.tar.gz -p /app/vendor/nginx -c "./configure --prefix=/app/vendor/nginx --with-pcre=contrib/pcre-$PCRE_VERSION --with-http_ssl_module --with-http_gzip_static_module --with-http_stub_status_module && make install" 
+vulcan build -v -s nginx-$NGINX_VERSION -o $tempdir/nginx-$NGINX_VERSION-heroku.tar.gz -p /app/vendor/nginx -c "./configure --prefix=/app/vendor/nginx --with-pcre=contrib/pcre-$PCRE_VERSION --with-http_ssl_module --with-http_gzip_static_module --with-http_stub_status_module  --with-http_realip_module && make install" 
 
 popd
 

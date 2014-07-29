@@ -591,6 +591,14 @@ if [ -r /app/web/landingPage.html ]; then
 	sed --regexp-extended --in-place -e "s/\{cachebuster\}|c=[0-9]+/c=\${timestamp}/" /app/web/landingPage.html
 	sed --regexp-extended --in-place -e "s/\{KISSMETRICS_ID\}/\${KISSMETRICS_ID}/" /app/web/landingPage.html
 fi
+
+if [ -r /app/web/abnehmen.html ]; then
+	echo "Found landingPage - patching CDN & Kissmetrics ID into assets ..."
+	sed --regexp-extended --in-place -e "s/(https?:\/\/[^\/]*)?\/assets\//https:\/\/\${CDN_BASE_URL_HTTPS_STATIC}\/assets\//" /app/web/abnehmen.html
+	sed --regexp-extended --in-place -e "s/\{cachebuster\}|c=[0-9]+/c=\${timestamp}/" /app/web/abnehmen.html
+	sed --regexp-extended --in-place -e "s/\{KISSMETRICS_ID\}/\${KISSMETRICS_ID}/" /app/web/abnehmen.html
+fi
+
 if [ -r /app/web/lp ]; then
 	echo "Found individualized landingPages - patching CDN & Kissmetrics ID into assets ..."
 	sed --regexp-extended --in-place -e "s/(https?:\/\/[^\/]*)?\/assets\//https:\/\/\${CDN_BASE_URL_HTTPS_STATIC}\/assets\//" /app/web/lp/*.html

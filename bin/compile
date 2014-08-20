@@ -586,7 +586,7 @@ else
 	timestamp=\$(date +%s)
 fi
 
-if test -n "$(find /app/web/ -maxdepth 1 -name '*.html' -print -quit)"
+if test -n "\$(find /app/web/ -maxdepth 1 -name '*.html' -print -quit)"
 then
 	echo "Found static HTML landingPages in /web - patching CDN & Kissmetrics ID into assets ..."
 	sed --regexp-extended --in-place -e "s/(https?:\/\/[^\/]*)?\/assets\//https:\/\/\${CDN_BASE_URL_HTTPS_STATIC}\/assets\//" /app/web/*.html
@@ -594,7 +594,7 @@ then
 	sed --regexp-extended --in-place -e "s/\{KISSMETRICS_ID\}/\${KISSMETRICS_ID}/" /app/web/*.html
 fi
 
-if test -n "$(find /app/web/lp -maxdepth 1 -name '*.html' -print -quit)"
+if test -n "\$(find /app/web/lp -maxdepth 1 -name '*.html' -print -quit)"
 then
 	echo "Found individualized landingPages - patching CDN & Kissmetrics ID into assets ..."
 	sed --regexp-extended --in-place -e "s/(https?:\/\/[^\/]*)?\/assets\//https:\/\/\${CDN_BASE_URL_HTTPS_STATIC}\/assets\//" /app/web/lp/*.html
